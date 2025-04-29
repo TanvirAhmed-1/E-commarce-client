@@ -1,8 +1,8 @@
 import React from 'react';
-import NavBar from '../Components/NavBar';
-import Footer from '../Components/Footer';
+import NavBar from '../NavBar';
+import Footer from '../Footer';
 import { Outlet } from 'react-router-dom';
-import NavSearch from '../Components/NavSearch';
+import NavSearch from '../NavSearch';
 
 const Root = () => {
     return (

@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { RouterProvider } from 'react-router-dom'
 import Router from './Router/Router.jsx'
 
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <div className='max-w-[1400px] mx-auto bg-[#666666] px-2'>

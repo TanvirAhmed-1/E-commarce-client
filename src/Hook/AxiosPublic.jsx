@@ -1,14 +1,8 @@
-
-import { useEffect } from "react";
-
-
-
+const instance = axios.create({
+  baseURL: "http://localhost:5173",
+});
 const AxiosPublic = () => {
-
-    useEffect(()=>{
-        
-    },[])
-    return 
+  return instance;
 };
 
 export default AxiosPublic;
