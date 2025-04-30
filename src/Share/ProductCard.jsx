@@ -5,6 +5,7 @@ import AxiosPublic from "./../Hook/AxiosPublic";
 import useTanStackQuery from "../Hook/useTanStackQuery";
 import Swal from "sweetalert2";
 import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
+import { Link } from "react-router-dom";
 
 const ProductCard = ({ data }) => {
   const [heard, setHeard] = useState(false);
@@ -82,7 +83,7 @@ const ProductCard = ({ data }) => {
           <div className="flex justify-between">
             <p className="text-black font-bold text-lg">Shipping</p>
             <span className="text-lg">
-              {shipping === "Free" ? (
+              {shipping == "Free" ? (
                 <span className="text-green-500">Free</span>
               ) : (
                 <span className="text-black">40</span>
@@ -104,7 +105,11 @@ const ProductCard = ({ data }) => {
             >
               Add To Cart
             </button>
-
+            <Link to={`/ProductDetails/${_id}`}
+              className="btn badge-outline text-white border-none hover:bg-green-700 bg-green-500 rounded-xl cursor-pointer "
+            >
+              Details
+            </Link>
             <div className="flex items-center">
               <div className="rating rating-sm">
                 {[1, 2, 3, 4, 5].map((i) => (

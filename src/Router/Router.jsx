@@ -6,6 +6,8 @@ import Register from "../Components/Register";
 import UploadProduct from "../Dashbord/UploadProduct";
 import Root from "../Components/Root/Root";
 import YourOrder from "../Order/YourOrder";
+import Favorite from "../Order/favorite";
+import ProductDetails from "../Components/ProductDetails";
 
 
 const Router =createBrowserRouter([
@@ -33,7 +35,16 @@ const Router =createBrowserRouter([
             {
                 path:"/yourOrder",
                 element:<YourOrder></YourOrder>
-            }
+            },
+            {
+                path:"/favorite",
+                element:<Favorite></Favorite>
+            },
+            {
+                path:"/ProductDetails/:id",
+                element:<ProductDetails></ProductDetails>,
+                
+            },
         ]
     }
 ])

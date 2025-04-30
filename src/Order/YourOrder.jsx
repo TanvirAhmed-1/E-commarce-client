@@ -108,12 +108,12 @@ const YourOrder = () => {
 
   if (data?.length === 0) {
     return (
-      <div className="flex flex-col justify-center items-center p-6 md:min-h-screen h-full">
-        <IoBagAddOutline className="text-6xl text-red-400" />
+      <div className="flex bg-white flex-col justify-center items-center p-6 md:min-h-screen h-full">
+        <IoBagAddOutline className="text-[140px] text-red-400" />
         <h1 className="text-lg font-semibold text-black mb-2">
-          You have No Order
+          You have No Order!
         </h1>
-        <h1 className="text-sm text-gray-500">Please Add to Order</h1>
+        <h1 className="text-lg text-gray-800">Please Add to Order</h1>
       </div>
     );
   }
@@ -167,7 +167,7 @@ const YourOrder = () => {
           ))}
         </div>
 
-        {/* Summary Panel */}
+        {/* payment Panel */}
         <div className="w-full md:w-[30%] border rounded-lg p-4 space-y-4 bg-gray-50">
           <h1 className="text-xl font-bold text-black">CART TOTAL</h1>
 
