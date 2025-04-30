@@ -2,8 +2,13 @@ import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
 import { NavLink } from "react-router-dom";
+import useTanStackQuery from "../Hook/useTanStackQuery";
+import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
 
 const NavBar = () => {
+  const [product, isLoading, refetch]=useTanStackQuery()
+  const [order]=useOrderTanStackQuery()
+
   const navLink = (
     <>
       <li>
@@ -59,13 +64,14 @@ const NavBar = () => {
         </div>
 
         <div className="navbar-end gap-2 items-center">
-            <div className="hover:bg-gray-300 border-none p-2 rounded-full">
-            <CiHeart className="text-black text-3xl" />
+            <div className=" relative  hover:bg-gray-300 border-none p-2 rounded-full">
+            <CiHeart className="text-black text-4xl" />
+            <span className= " absolute top-0 right-0  badge badge-sm indicator-item">{product.length}</span>
             </div>
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle hover:bg-gray-300  border-none">
             <div className="indicator">
             <AiOutlineShoppingCart className="text-black text-3xl" />
-              <span className="badge badge-sm indicator-item">8</span>
+              <span className="badge badge-sm indicator-item">{order.length}</span>
             </div>
           </div>
           <a className="btn hover:bg-gray-300 border-none btn-ghost text-black">Sign Up</a>

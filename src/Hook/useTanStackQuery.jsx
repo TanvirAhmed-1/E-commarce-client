@@ -7,7 +7,7 @@ const useTanStackQuery = () => {
     const { data: product = [], isLoading, refetch } = useQuery({
         queryKey: ["productData"],
         queryFn: async () => {
-            const res = await axiosSecure.get("/products");
+            const res = await axiosSecure.get("/favorite");
             return res.data;
         }
     });
