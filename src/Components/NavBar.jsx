@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { CiHeart } from "react-icons/ci";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import useTanStackQuery from "../Hook/useTanStackQuery";
 import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
 
@@ -69,10 +69,10 @@ const NavBar = () => {
             <span className= " absolute top-0 right-0  badge badge-sm indicator-item">{product.length}</span>
             </div>
           <div tabIndex={0} role="button" className="btn btn-ghost btn-circle hover:bg-gray-300  border-none">
-            <div className="indicator">
+            <Link to={"/yourOrder"} className="indicator">
             <AiOutlineShoppingCart className="text-black text-3xl" />
               <span className="badge badge-sm indicator-item">{order.length}</span>
-            </div>
+            </Link>
           </div>
           <a className="btn hover:bg-gray-300 border-none btn-ghost text-black">Sign Up</a>
         </div>

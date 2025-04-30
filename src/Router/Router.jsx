@@ -5,6 +5,7 @@ import Login from "../Components/Login";
 import Register from "../Components/Register";
 import UploadProduct from "../Dashbord/UploadProduct";
 import Root from "../Components/Root/Root";
+import YourOrder from "../Order/YourOrder";
 
 
 const Router =createBrowserRouter([
@@ -29,6 +30,10 @@ const Router =createBrowserRouter([
                 path:"/productUpdate",
                 element:<UploadProduct></UploadProduct>  
             },
+            {
+                path:"/yourOrder",
+                element:<YourOrder></YourOrder>
+            }
         ]
     }
 ])
