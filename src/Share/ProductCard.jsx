@@ -57,7 +57,7 @@ const ProductCard = ({ data }) => {
 
   return (
     <div className="w-full sm:w-72 md:w-80 lg:w-96 mx-auto">
-      <div className="card bg-white shadow-sm">
+      <div className="card transform transition-transform duration-300 hover:scale-105 bg-white shadow-sm">
         <figure className="relative w-full h-56 bg-gray-200 overflow-hidden">
           <img src={image} alt={title} className="object-cover w-full h-full" />
           <div

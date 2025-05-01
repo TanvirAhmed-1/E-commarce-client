@@ -2,36 +2,57 @@ import { useParams } from "react-router-dom";
 import AxiosPublic from "../Hook/AxiosPublic";
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
+import { FaStar } from "react-icons/fa";
+import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
 
 const ProductDetails = () => {
   const { id } = useParams();
   const axiosPublic = AxiosPublic();
   const [product, setProduct] = useState(null);
+  const [activeImage, setActiveImage] = useState("");
+  const [order, refetch] = useOrderTanStackQuery();
 
   useEffect(() => {
     axiosPublic
       .get(`/products/${id}`)
       .then((res) => {
         setProduct(res.data);
+        setActiveImage(res.data.image); // default main image
       })
       .catch((err) => {
         console.log(err);
       });
   }, [id]);
 
-  const handleAddToCart = async () => {
+  const HandleAddToCard = async () => {
+    const { _id, ...data } = product;
+    const sendData = {
+      orderId: _id,
+      ...data,
+    };
+
     try {
-      const { _id, ...dataWithoutId } = product;
-      const sendData = {
-        orderId: _id,
-        ...dataWithoutId,
-      };
       const res = await axiosPublic.post("/addToCard", sendData);
-      if (res.data.acknowledged) {
-        Swal.fire("Added!", "Product added to cart.", "success");
+      refetch();
+      if (res.data.insertedId) {
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Product Successfully Added!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       }
-    } catch (error) {
-      Swal.fire("Oops!", "Something went wrong.", "error");
+    } catch (err) {
+      console.log(err);
+      if (err.message === "Request failed with status code 500")
+        Swal.fire({
+          position: "top-center",
+          icon: "error",
+          title: "Product Already Added!",
+          showConfirmButton: false,
+          timer: 1500,
+        });
     }
   };
 
@@ -39,17 +60,33 @@ const ProductDetails = () => {
 
   const { title, image, price, description, rating, shipping } = product;
 
+  // Fallback thumbnails (you can replace with real images from product.images if available)
+  const thumbnails = [image, image, image, image];
+
   return (
     <div className="bg-white min-h-screen py-10">
-        <h1 className="text-2xl font-semibold text-center text-black">Product Details </h1>
-      <div className=" flex items-center justify-center p-6">
+      <h1 className="text-2xl font-semibold text-center text-black">Product Details</h1>
+      <div className="flex items-center justify-center p-6">
         <div className="max-w-4xl w-full bg-gray-50 shadow-lg rounded-xl overflow-hidden md:flex">
           <div className="md:w-1/2 p-6 bg-gray-100 border rounded-xl border-solid border-gray-200">
             <img
-              src={image}
+              src={activeImage}
               alt={title}
-              className="w-full h-80 object-cover rounded-lg"
+              className="w-full h-80 object-cover rounded-lg mb-4"
             />
+            <div className="flex flex-row justify-between h-20 gap-1">
+              {thumbnails.map((changeImg, index) => (
+                <img
+                  key={index}
+                  src={changeImg}
+                  alt=""
+                  className={`w-20 h-20 rounded-md cursor-pointer border-2 ${
+                    activeImage === changeImg ? "border-green-500 transform transition-transform duration-300 hover:scale-105" : "border-transparent"
+                  }`}
+                  onClick={() => setActiveImage(changeImg)}
+                />
+              ))}
+            </div>
           </div>
           <div className="md:w-1/2 p-6 flex flex-col justify-between">
             <div>
@@ -60,23 +97,22 @@ const ProductDetails = () => {
               </div>
               <div className="mb-2 text-gray-800">
                 Shipping:{" "}
-                {shipping == "free" ? (
+                {shipping === "free" ? (
                   <span className="text-green-500 font-semibold">Free</span>
                 ) : (
                   "$40"
                 )}
               </div>
-              <div className="text-gray-800">
+              <div className="text-gray-800 flex justify-start items-center gap-1">
                 Rating:{" "}
-                <span className="text-yellow-500 font-semibold">
-                  {rating} ★
-                </span>
+                <span className="text-yellow-500 font-semibold">{rating}</span>
+                <FaStar className="text-yellow-500" />
               </div>
             </div>
 
             <button
-              onClick={handleAddToCart}
-              className="mt-6 w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition duration-300"
+              onClick={HandleAddToCard}
+              className="mt-6 transform  hover:scale-95 w-full py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-xl transition duration-300"
             >
               Add to Cart
             </button>
