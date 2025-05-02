@@ -1,5 +1,6 @@
 import Lottie from 'lottie-react';
 import login from "../assets/Login.json"
+import GoogleLogin from '../Share/GoogleLogin';
 
 const Login = () => {
     const handleForm = (e) => {
@@ -55,6 +56,9 @@ const Login = () => {
               <button className="btn btn-primary w-full">Login</button>
             </div>
           </form>
+          <section>
+          <GoogleLogin></GoogleLogin>
+        </section>
         </div>
       </div>
     </div>
