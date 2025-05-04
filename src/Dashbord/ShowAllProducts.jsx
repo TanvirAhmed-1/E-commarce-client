@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import useProduct from "../Hook/useProduct";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import useAxiosSecure from "./../Hook/useAxiosSecure";
+import useAxiosSecure from "../Hook/useAxiosSecure";
 import Swal from "sweetalert2";
 
 const ShowAllProducts = () => {
@@ -9,18 +9,33 @@ const ShowAllProducts = () => {
   const axiosSecure = useAxiosSecure();
 
   const handleDelete = async (id) => {
-    console.log("Delete ID:", id);
-    const res = await axiosSecure.delete(`/products/delete/${id}`);
-    console.log(res.data);
-    refetch();
-    if (res.data.deletedCount > 0) {
-      Swal.fire({
-        position: "top-center",
-        icon: "success",
-        title: "Product Successfully Delate",
-        showConfirmButton: false,
-        timer: 1100,
-      });
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const res = await axiosSecure.delete(`/products/delete/${id}`);
+        if (res.data.deletedCount > 0) {
+          refetch();
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Product Successfully Deleted",
+            showConfirmButton: false,
+            timer: 1000,
+          });
+        }
+      } catch (error) {
+        console.error(error);
+        Swal.fire("Error", "Something went wrong while deleting.", "error");
+      }
     }
   };
 
@@ -63,10 +78,11 @@ const ShowAllProducts = () => {
                 {product.availability === "true" ? "Yes" : "No"}
               </td>
               <td className="px-4 py-2 border">{product.shipping || "N/A"}</td>
-              <td className="px-4 py-2 border text-center flex justify-center items-center">
+              <td className="px-4 py-2 border text-center">
                 <Link
                   to={`/UpdateProduct/${product._id}`}
-                  className="text-blue-600 hover:text-blue-800 mr-3"
+                  className="text-blue-600 hover:text-blue-800"
+                  title="Edit"
                 >
                   <FaEdit />
                 </Link>

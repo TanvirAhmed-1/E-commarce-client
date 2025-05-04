@@ -18,12 +18,24 @@ const ProductCard = ({ data }) => {
       const res = await axiosPublic.post("/favorite", data);
       refetch();
       if (res.data.acknowledged) {
-        Swal.fire("Added to favorite list!");
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Your work has been saved",
+          showConfirmButton: false,
+          timer: 800
+        });
         setLiked(true);
       }
     } catch (err) {
       console.log(err);
-      Swal.fire("Product already in favorites!");
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Your work has been saved",
+        showConfirmButton: false,
+        timer: 800
+      });
     }
   };
 
@@ -35,7 +47,13 @@ const ProductCard = ({ data }) => {
       const res = await axiosPublic.post("/addToCard", sendData);
       refetchOrder();
       if (res.data.acknowledged) {
-        Swal.fire("Product successfully added to cart!");
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Product successfully added to cart!",
+          showConfirmButton: false,
+          timer: 600
+        });
       }
     } catch (err) {
       console.log(err);
