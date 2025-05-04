@@ -28,16 +28,16 @@ const NavBar = () => {
       </li>
 
       <li>
-        <NavLink to={"/register"}>Home</NavLink>
+        <NavLink to={"/productUpdate"}>Home</NavLink>
       </li>
       <li>
-        <NavLink to={"/login"}>Home</NavLink>
+        <NavLink to={"/showAllProducts"}>Home</NavLink>
       </li>
       <li>
         <NavLink to={"/productUpdate"}>Home</NavLink>
       </li>
       <li>
-        <NavLink to={"/login"}>Home</NavLink>
+        <NavLink to={"/allOrder"}>Home</NavLink>
       </li>
     </>
   );

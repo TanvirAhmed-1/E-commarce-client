@@ -1,23 +1,20 @@
 import { useEffect, useState } from "react";
 import AxiosPublic from "./AxiosPublic";
+import { useQuery } from "@tanstack/react-query";
 
 const useProduct = () => {
-  const [products, setProducts] = useState([]);
   const axiosSecure = AxiosPublic();
-  useEffect(() => {
-    axiosSecure
-      .get("/products")
-      .then((res) => {
-        setProducts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
 
+  // Use useQuery properly to fetch the product data
+  const { data: products = [], refetch } = useQuery({
+    queryKey: ["all products"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/products");
+      return res.data;
+    },
+  });
 
-  }, []);
-
-  return [products ];
+  return [products, refetch];
 };
 
 export default useProduct;

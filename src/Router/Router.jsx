@@ -8,6 +8,9 @@ import Root from "../Components/Root/Root";
 import YourOrder from "../Order/YourOrder";
 import Favorite from "../Order/favorite";
 import ProductDetails from "../Components/ProductDetails";
+import ShowAllProducts from "../Dashbord/ShowAllProducts";
+import UpdateProduct from "../Dashbord/UpdateProduct";
+import AllOrder from "../Dashbord/AllOrder";
 
 
 const Router =createBrowserRouter([
@@ -43,6 +46,21 @@ const Router =createBrowserRouter([
             {
                 path:"/ProductDetails/:id",
                 element:<ProductDetails></ProductDetails>,
+                
+            },
+            {
+                path:"/showAllProducts",
+                element:<ShowAllProducts></ShowAllProducts>,
+                
+            },
+            {
+                path:"/UpdateProduct/:id",
+                element:<UpdateProduct></UpdateProduct>,
+                
+            },
+            {
+                path:"/allOrder",
+                element:<AllOrder></AllOrder>,
                 
             },
         ]
