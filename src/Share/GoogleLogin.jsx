@@ -1,22 +1,40 @@
+import { useContext } from "react";
 import { BsGoogle } from "react-icons/bs";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../Components/Authontation/Authorization";
+import AxiosPublic from "../Hook/AxiosPublic";
 
 const GoogleLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { gitHubSignIn, GoogleLogin, setUsers, loader } =
+    useContext(AuthContext);
+  const axiosPublic = AxiosPublic();
 
   const handleGmailLogin = () => {
-    // gmailUser()
-    // .then((result) => {
-    //   console.log(result.user);
-    //   setUsers(result.user)
-    //   navigate(location?.state ? location.state : "/")
-    // })
-    // .catch((err) => {
-    //   console.log(err.message);
-    //   alert(err.message)
-    // });
+    GoogleLogin()
+      .then((result) => {
+        console.log(result.user);
+        setUsers(result.user);
+        const userData = {
+          UserName: result.user.displayName,
+          Email: result.user.email,
+        };
+        axiosPublic
+          .post("/users", userData)
+          .then((res) => {
+            console.log(res.data);
+            navigate(location?.state ? location.state : "/");
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      })
+      .catch((err) => {
+        console.log(err.message);
+        alert(err.message);
+      });
   };
   return (
     <div>

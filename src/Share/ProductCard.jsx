@@ -1,115 +1,85 @@
 import { useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-
-import AxiosPublic from "./../Hook/AxiosPublic";
-import useTanStackQuery from "../Hook/useTanStackQuery";
-import Swal from "sweetalert2";
-import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import AxiosPublic from "../Hook/AxiosPublic";
+import useTanStackQuery from "../Hook/useTanStackQuery";
+import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
 
 const ProductCard = ({ data }) => {
-  const [heard, setHeard] = useState(false);
-  const [product, isLoading, refetch] = useTanStackQuery();
-  const [order,refetchOrder]=useOrderTanStackQuery()
+  const [liked, setLiked] = useState(false);
+  const [, , refetch] = useTanStackQuery();
+  const [, refetchOrder] = useOrderTanStackQuery();
   const axiosPublic = AxiosPublic();
   const { _id, title, image, price, rating, shipping } = data;
 
-  const HandleFavorite = async (data) => {
-    console.log(data);
+  const handleFavorite = async () => {
     try {
       const res = await axiosPublic.post("/favorite", data);
-      console.log(res.data);
       refetch();
-      if (res.data.acknowledged === true) {
-        Swal.fire("Add to favorite List!");
+      if (res.data.acknowledged) {
+        Swal.fire("Added to favorite list!");
+        setLiked(true);
       }
     } catch (err) {
       console.log(err);
-      if (err.message === "Request failed with status code 500")
-        Swal.fire("product All Ready Added!");
+      Swal.fire("Product already in favorites!");
     }
   };
 
-  const HandleAddToCard =async (data) => {
-    console.log(data);
-
-    const{ _id, ...data2}=data
-   console.log(_id, data2)
-
-   const sendData={
-    orderId:_id,
-    ...data2
-   }
+  const handleAddToCart = async () => {
+    const { _id, ...rest } = data;
+    const sendData = { orderId: _id, ...rest };
 
     try {
       const res = await axiosPublic.post("/addToCard", sendData);
-      console.log(res.data);
       refetchOrder();
-      if (res.data.acknowledged === true) {
-        Swal.fire("Product Successfully Added!");
+      if (res.data.acknowledged) {
+        Swal.fire("Product successfully added to cart!");
       }
     } catch (err) {
       console.log(err);
-      if (err.message === "Request failed with status code 500")
-        Swal.fire("Product All Ready Added!");
+      Swal.fire("Product already in cart!");
     }
   };
 
   return (
     <div className="w-full sm:w-72 md:w-80 lg:w-96 mx-auto">
-      <div className="card transform transition-transform duration-300 hover:scale-105 bg-white shadow-sm">
-        <figure className="relative w-full h-56 bg-gray-200 overflow-hidden">
+      <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <div className="relative h-56 bg-gray-100">
           <img src={image} alt={title} className="object-cover w-full h-full" />
-          <div
-            onClick={() => setHeard(!heard)}
-            className={`absolute top-2 right-2 rounded-full p-2 transition-colors duration-300 cursor-pointer`}
+          <button
+            onClick={handleFavorite}
+            className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-red-100 transition"
           >
-            {heard ? (
-              <FaHeart className="text-red-500 text-2xl" />
+            {liked ? (
+              <FaHeart className="text-red-500 text-xl" />
             ) : (
-              <FaRegHeart
-                onClick={() => HandleFavorite(data)}
-                className="text-black text-2xl"
-              />
+              <FaRegHeart className="text-gray-600 text-xl" />
             )}
-          </div>
-        </figure>
+          </button>
+        </div>
 
-        <div className="card-body p-4">
-          <h2 className="card-title text-black text-base md:text-lg">
+        <div className="p-4 space-y-3">
+          <h2 className="text-lg font-semibold text-gray-800 truncate">
             {title}
           </h2>
 
-          <div className="flex justify-between">
-            <p className="text-black font-bold text-lg">Shipping</p>
-            <span className="text-lg">
-              {shipping == "Free" ? (
-                <span className="text-green-500">Free</span>
-              ) : (
-                <span className="text-black">40</span>
-              )}
+          <div className="flex justify-between text-sm text-gray-600">
+            <span>Shipping:</span>
+            <span
+              className={shipping === "Free" ? "text-green-500 font-bold" : ""}
+            >
+              {shipping === "Free" ? "Free" : "$40"}
             </span>
           </div>
 
-          <div className="flex justify-between items-center mt-2">
-            <p className="text-black font-bold text-lg">Price</p>
-            <span className="border-2 text-black border-green-400 px-4 py-1 rounded-2xl">
-              ${price}
-            </span>
+          <div className="flex justify-between items-center">
+            <span className="text-sm text-gray-600">Price:</span>
+            <span className="text-green-600 font-bold text-lg">${price}</span>
           </div>
-
-          <div className="card-actions justify-between items-center mt-3">
-            <button
-              onClick={() => HandleAddToCard(data)}
-              className="btn badge-outline text-white border-none hover:bg-green-700 bg-green-500 rounded-xl cursor-pointer "
-            >
-              Add To Cart
-            </button>
-            <Link to={`/ProductDetails/${_id}`}
-              className="btn badge-outline text-white border-none hover:bg-green-700 bg-green-500 rounded-xl cursor-pointer "
-            >
-              Details
-            </Link>
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-600">Rating:</span>
             <div className="flex items-center">
               <div className="rating rating-sm">
                 {[1, 2, 3, 4, 5].map((i) => (
@@ -123,8 +93,23 @@ const ProductCard = ({ data }) => {
                   />
                 ))}
               </div>
-              <span className="text-black text-sm ml-2">{rating}</span>
+              <span className="text-sm text-gray-600 ml-2">{rating}</span>
             </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 pt-3">
+            <button
+              onClick={handleAddToCart}
+              className="bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl text-sm font-semibold"
+            >
+              Add to Cart
+            </button>
+            <Link
+              to={`/ProductDetails/${_id}`}
+              className="bg-gray-800 hover:bg-black text-white py-2 rounded-xl text-sm font-semibold text-center"
+            >
+              View Details
+            </Link>
           </div>
         </div>
       </div>

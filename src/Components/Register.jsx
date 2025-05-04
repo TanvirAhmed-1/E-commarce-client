@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosSearch } from "react-icons/io";
 import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 import axios from "axios";
 import Lottie from "lottie-react";
 import registerAnimation from "../assets/Animation - 1745245679887.json";
+import { AuthContext } from "./Authontation/Authorization";
 
 // profile image upload API
 const imgCode = import.meta.env.VITE_IMG_KEY;
 const imgURL = `https://api.imgbb.com/1/upload?key=${imgCode}`;
 
+import AxiosPublic from "./../Hook/AxiosPublic";
+import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import LoadingPage from './../Pages/Home/LoadingPage';
+
 const Register = () => {
   const [showPass, setShowPass] = useState(false);
+  const { registerUser, setUsers, UpdateUserProfile } = useContext(AuthContext);
+  const axiosPublic = AxiosPublic();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const[loader, setLoader]=useState(false)
   const {
     register,
     handleSubmit,
@@ -19,23 +30,58 @@ const Register = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
+    setLoader(true)
+
     const fileImg = { image: data.photo[0] };
     try {
       const res = await axios.post(imgURL, fileImg, {
         headers: { "content-type": "multipart/form-data" },
       });
-      const image = res.data?.data?.display_url;
-      console.log("Uploaded Image:", image);
+      const imageUrl = res.data?.data?.display_url;
+      console.log("Uploaded Image:", imageUrl);
       console.log("Form Data:", data);
 
       if (res.data.success) {
         const { name, email, password } = data;
+        const userData = {
+          UserName: name,
+          Email: email,
+        };
         // TODO: Use this data as needed
+        registerUser(email, password)
+          .then((res) => {
+            console.log(res.user);
+            setUsers(res.user)
+            UpdateUserProfile({
+              displayName:data?.name,
+              photoURL: imageUrl,
+            })
+            axiosPublic
+            .post("/users", userData)
+            .then((res) => {
+              console.log(res.data);
+               setLoader(false)
+              navigate(location?.state ? location.state : "/");
+            })
+            .catch((err) => {
+              setLoader(false);
+              console.log(err.message);
+            });
+          })
+          .catch((err) => {
+            setLoader(false);
+            console.log(err.message);
+          });
       }
     } catch (err) {
+      setLoader(false);
       console.error("Image upload failed:", err);
     }
   };
+
+  if(loader){
+    return <LoadingPage></LoadingPage>
+  }
 
   return (
     <div className="hero min-h-screen bg-gray-200 dark:bg-black flex justify-center items-center">
@@ -48,8 +94,6 @@ const Register = () => {
             className="w-72 h-72"
           />
         </div>
-
-        {/* Registration Form */}
         <div className="card bg-white dark:bg-gray-800 shadow-lg p-6 w-full md:w-[50%]">
           <h1 className="text-3xl font-bold text-center text-gray-800 dark:text-white">
             Register Now!
@@ -64,7 +108,7 @@ const Register = () => {
                 type="text"
                 {...register("name", { required: true })}
                 placeholder="Your Name"
-                className="input dark:bg-white bg-gray-200 input-bordered w-full"
+                className="input  bg-gray-800 input-bordered w-full"
               />
               {errors.name && (
                 <span className="text-red-400 text-sm">
@@ -82,7 +126,7 @@ const Register = () => {
                 {...register("email", { required: true })}
                 type="email"
                 placeholder="Email"
-                className="input dark:bg-white bg-gray-200 input-bordered w-full"
+                className="input  bg-gray-800 input-bordered w-full"
               />
               {errors.email && (
                 <span className="text-red-400 text-sm">Email is required</span>
@@ -96,26 +140,27 @@ const Register = () => {
               </label>
               <input
                 type={showPass ? "text" : "password"}
-                {...register(
-                  "password",
-                  { required: true, 
-                  pattern: /^[A-Za-z]+$/i,
-                  min: 4, max: 15
-                 }
-                )}
+                {...register("password", {
+                  required: true,
+                  pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,15}$/,
+                  min: 6,
+                  max: 15,
+                })}
                 placeholder="Password"
-                className="input dark:bg-white bg-gray-200 text-black input-bordered w-full"
+                className="input  bg-gray-200 text-black input-bordered w-full"
               />
-              <div
+              <button
+                type="button"
                 onClick={() => setShowPass(!showPass)}
-                className="absolute top-[38px] right-6 cursor-pointer"
+                className="absolute top-[38px] right-6 z-50 cursor-pointer"
               >
                 {showPass ? (
-                  <FaRegEye className="text-xl" />
+                  <FaRegEye className="text-xl text-black" />
                 ) : (
-                  <FaEyeSlash className="text-xl" />
+                  <FaEyeSlash className="text-xl text-black" />
                 )}
-              </div>
+              </button>
+
               {errors.password?.type === "required" && (
                 <span className="text-red-400 text-sm">
                   Password is required
