@@ -1,5 +1,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import img1 from "../../assets/img/IMG1.jpg"
+import img2 from "../../assets/img/IMG2.jpg"
+import img3 from "../../assets/img/IMG3.jpeg"
+import img4 from "../../assets/img/IMG4.jpeg"
 
 // Import Swiper styles
 import "swiper/css";
@@ -23,10 +27,10 @@ const Slider = () => {
         modules={[Autoplay, Pagination, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
+        <SwiperSlide><img src={img1} className="object-cover overflow-hidden w-full" alt="" srcset="" /></SwiperSlide>
+        <SwiperSlide><img src={img2} className="object-cover overflow-hidden w-full" alt="" srcset="" /></SwiperSlide>
+        <SwiperSlide><img src={img3} className="object-cover overflow-hidden w-full" alt="" srcset="" /></SwiperSlide>
+        <SwiperSlide><img src={img4} className="object-cover overflow-hidden w-full" alt="" srcset="" /></SwiperSlide>
         <SwiperSlide>Slide 5</SwiperSlide>
         <SwiperSlide>Slide 6</SwiperSlide>
         <SwiperSlide>Slide 7</SwiperSlide>
