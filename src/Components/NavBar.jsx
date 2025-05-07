@@ -37,7 +37,7 @@ const NavBar = () => {
         <NavLink to={"/productUpdate"}>Home</NavLink>
       </li>
       <li>
-        <NavLink to={"/allOrder"}>Home</NavLink>
+        <NavLink to={"/allProducts"}>Home</NavLink>
       </li>
     </>
   );

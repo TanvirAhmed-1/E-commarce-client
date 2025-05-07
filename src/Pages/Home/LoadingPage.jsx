@@ -1,7 +1,7 @@
 const LoadingPage = () => {
   return (
-    <div>
-      <span className="loading loading-bars loading-lg"></span>
+    <div className="flex justify-center items-center min-h-screen bg-white">
+      <span className="loading bg-black loading-bars loading-xl"></span>
     </div>
   );
 };

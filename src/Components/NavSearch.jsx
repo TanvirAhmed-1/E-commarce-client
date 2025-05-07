@@ -2,14 +2,18 @@
 import { IoIosSearch } from "react-icons/io";
 import useProduct from "../Hook/useProduct";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const NavSearch = () => {
   const [sort, setSort]=useState(false)
   const [search , setSearch]=useState("")
+  const navigate=useNavigate()
 
-
+const handleNavigate=()=>{
+ navigate("/allProducts")
+}
   return (
-    <div className="bg-[#1ABA1A] rounded-xl py-4 px-4">
+    <div onClick={handleNavigate} className="bg-[#1ABA1A] rounded-xl py-4 px-4">
       <div className="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6">
         
         <div className="relative w-full md:w-[40%]">

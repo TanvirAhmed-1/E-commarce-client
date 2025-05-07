@@ -11,6 +11,8 @@ import ProductDetails from "../Components/ProductDetails";
 import ShowAllProducts from "../Dashbord/ShowAllProducts";
 import UpdateProduct from "../Dashbord/UpdateProduct";
 import AllOrder from "../Dashbord/AllOrder";
+import AllProducts from "../Pages/AllProducts";
+import NavSearch from "../Components/NavSearch";
 
 
 const Router =createBrowserRouter([
@@ -62,6 +64,10 @@ const Router =createBrowserRouter([
                 path:"/allOrder",
                 element:<AllOrder></AllOrder>,
                 
+            },
+            {
+                path:"/allProducts",
+                element:<AllProducts></AllProducts>
             },
         ]
     }
