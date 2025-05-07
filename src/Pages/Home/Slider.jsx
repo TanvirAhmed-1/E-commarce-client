@@ -26,45 +26,45 @@ const Slider = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <>
-      <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 3500,
-          disableOnInteraction: false,
-        }}
-        pagination={{
-          clickable: true,
-        }}
-        navigation={true}
-        modules={[Autoplay, Pagination, Navigation]}
-        onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
-        className="mySwiper"
-      >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index}>
-            <div className="relative w-full h-[600px]">
-              <img src={slide.image} className="object-cover w-full h-full" alt="slider" />
-              {activeIndex === index && (
-                <motion.h1
-                  key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1 }}
-                  className="absolute top-1/2 left-20 text-white text-4xl md:text-5xl font-bold px-6 py-3 rounded-xl transform -translate-x-1/2 -translate-y-1/2"
-                >
-                  <div className="space-y-6 ">
-                  <p className="">{slide.title}</p>
-                  <button className=" bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-xl text-xl">Order Naw!</button>
-                  </div>
-                </motion.h1>
-              )}
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </>
+    <Swiper
+      spaceBetween={30}
+      centeredSlides={true}
+      autoplay={{
+        delay: 3500,
+        disableOnInteraction: false,
+      }}
+      pagination={{ clickable: true }}
+      navigation={true}
+      modules={[Autoplay, Pagination, Navigation]}
+      onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+      className="mySwiper"
+    >
+      {slides.map((slide, index) => (
+        <SwiperSlide key={index}>
+          <div className="relative w-full md:h-[600px] h-[300px]">
+            <img src={slide.image} className="object-cover w-full h-full" alt="slider" />
+            {activeIndex === index && (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                className="absolute top-1/2 left-20 transform -translate-x-1/2 -translate-y-1/2 text-center px-4"
+              >
+                <div className="space-y-4">
+                  <p className="text-white text-xl md:text-4xl font-bold drop-shadow-md">
+                    {slide.title}
+                  </p>
+                  <button className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-4 py-2 rounded-xl text-white text-sm md:text-lg">
+                    Order Now!
+                  </button>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 };
 

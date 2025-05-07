@@ -24,9 +24,9 @@ const ReactTab = () => {
   }
   return (
     <div>
-        <h1 className="text-2xl font-semibold text-black">Browse By Category</h1>
+        <h1 className="text-2xl pt-10 md:text-start text-center font-semibold text-black">Browse By Category</h1>
       <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
-        <TabList className=" lg:w-10/12 mx-auto grid md:grid-cols-6 grid-cols-3 md:py-20  justify-center items-center gap-4">
+        <TabList className=" lg:w-10/12 mx-auto grid md:grid-cols-6 grid-cols-3 md:py-20 py-10 justify-center items-center gap-4">
 
           <Tab className="hidden"></Tab>
           <Tab><div className="grid justify-center items-center">
