@@ -61,7 +61,7 @@ const UpdateProduct = () => {
             <input
               {...register("title")}
               placeholder="Enter product title"
-              defaultValue={product?.title || ""}
+              defaultValue={product?.title}
               className="input input-bordered w-full px-3 py-2 rounded-md"
             />
           </div>
@@ -71,7 +71,7 @@ const UpdateProduct = () => {
             <input
               {...register("image1")}
               placeholder="Enter image URL"
-              defaultValue={product?.image1 || ""}
+              defaultValue={product?.image1}
               className="input input-bordered w-full px-3 py-2 rounded-md"
             />
           </div>
@@ -81,7 +81,7 @@ const UpdateProduct = () => {
             <input
               {...register("image2")}
               placeholder="Enter image URL"
-              defaultValue={product?.image2 || ""}
+              defaultValue={product?.image2 }
               className="input input-bordered w-full px-3 py-2 rounded-md"
             />
           </div>
@@ -91,7 +91,7 @@ const UpdateProduct = () => {
             <input
               {...register("image3")}
               placeholder="Enter image URL"
-              defaultValue={product?.image3 || ""}
+              defaultValue={product?.image3}
               className="input input-bordered w-full px-3 py-2 rounded-md"
             />
           </div>
@@ -101,7 +101,7 @@ const UpdateProduct = () => {
             <select
               {...register("subcategory")}
               className="select select-bordered w-full px-3 py-2 rounded-md"
-              defaultValue={product?.subcategory || ""}
+              defaultValue={product?.subcategory}
             >
               <option value="">Select Sub Category</option>
               <option>Phone</option>
@@ -121,7 +121,7 @@ const UpdateProduct = () => {
             <select
               {...register("category")}
               className="select select-bordered w-full px-3 py-2 rounded-md"
-              defaultValue={product?.category || ""}
+              defaultValue={product?.category}
             >
               <option value="">Select Category</option>
               <option>Phone</option>
@@ -138,7 +138,7 @@ const UpdateProduct = () => {
               type="number"
               {...register("price")}
               placeholder="Enter price"
-              defaultValue={product?.price || ""}
+              defaultValue={product?.price}
               className="input input-bordered w-full px-3 py-2 rounded-md"
             />
           </div>
@@ -148,7 +148,7 @@ const UpdateProduct = () => {
             <select
               {...register("availability")}
               className="select select-bordered w-full px-3 py-2 rounded-md"
-              defaultValue={product?.availability || "false"}
+              defaultValue={product?.availability}
             >
               <option value="true">Available</option>
               <option value="false">Not Available</option>
@@ -162,10 +162,10 @@ const UpdateProduct = () => {
               className="select select-bordered w-full px-3 py-2 rounded-md"
               defaultValue={product?.shipping || "false"}
             >
-              <option value="true">Free</option>
-              <option value="false">60</option>
-              <option value="false">100</option>
-              <option value="false">120</option>
+              <option value="Free">Free</option>
+              <option value="Payed">Payed</option>
+              <option value="New">New</option>
+              <option value="Top Sell">Top Sell</option>
             </select>
           </div>
 
@@ -186,7 +186,7 @@ const UpdateProduct = () => {
             <textarea
               {...register("description")}
               placeholder="Enter description"
-              defaultValue={product?.description || ""}
+              defaultValue={product?.description}
               className="textarea textarea-bordered w-full px-3 py-2 rounded-md"
               rows="4"
             />

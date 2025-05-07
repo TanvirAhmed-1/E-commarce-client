@@ -15,20 +15,20 @@ const FreeShopping = () => {
       />
 
       <motion.div
-        className="absolute md:top-1/2 top-10 left-3 transform -translate-x-1/2 -translate-y-1/2 text-center text-white"
+        className="absolute md:top-[20%] top-10 left-3 md:right-2 transform -translate-x-1/2 -translate-y-1/2 text-center text-white"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 1 }}
         viewport={{ once: true }}
       >
-        <p className="text-2xl md:text-3xl font-bold px-4 py-2 rounded-lg text-black ">
+        <p className="text-2xl md:text-6xl font-bold px-4 py-2 rounded-lg text-black ">
           All Bangladesh Free Shipping
         </p>
         <motion.button
           whileHover={{ scale: 1.1 }}
-          className="mt-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-xl font-semibold"
+          className="mt-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-xl text-xl font-semibold"
         >
-          Buy Now!
+          Buy Now !
         </motion.button>
       </motion.div>
     </div>

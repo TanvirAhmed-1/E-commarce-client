@@ -83,21 +83,22 @@ const ProductCard = ({ data }) => {
             {title}
           </h2>
 
-          <div className="flex justify-between text-sm text-gray-600">
-            <span>Shipping:</span>
+          {/* <div className="flex justify-between text-sm text-gray-600">
+            <span>Shipping</span>
             <span
               className={shipping === "Free" ? "text-green-500 font-bold" : ""}
             >
-              {shipping === "Free" ? "Free" : "$40"}
+              {shipping === "Free" ? "Free" : "pay"}
             </span>
-          </div>
+          </div> */}
 
-          <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-600">Price:</span>
-            <span className="text-green-600 font-bold text-lg">${price}</span>
+          <div className=" space-x-4">
+            {/* <span className="text-sm text-gray-600">Price</span> */}
+            <span className="text-green-600 font-bold  text-lg">${price}</span>
+            <span className="text-gray-600 line-through font-bold text-lg">${price+100}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-600">Rating:</span>
+            {/* <span className="text-sm text-gray-600">Rating</span> */}
             <div className="flex items-center">
               <div className="rating rating-sm">
                 {[1, 2, 3, 4, 5].map((i) => (
