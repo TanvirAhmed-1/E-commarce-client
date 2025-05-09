@@ -1,13 +1,17 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { FreeMode, Pagination } from "swiper/modules";
+import { Autoplay} from "swiper/modules";
+
 import "swiper/css";
+import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import { Mousewheel, Pagination } from "swiper/modules";
 
 import useProduct from "../Hook/useProduct";
 import LoadingPage from "./../Pages/Home/LoadingPage";
 import { Link } from "react-router-dom";
-import { FaStackExchange, FaStarAndCrescent } from "react-icons/fa";
+import { FaStar } from "react-icons/fa";
+import { LiaOpencart } from "react-icons/lia";
 
 const NewProduct = () => {
   const [products, loading] = useProduct();
@@ -19,39 +23,88 @@ const NewProduct = () => {
   const newProducts = products.filter((product) => product.shipping === "New");
 
   return (
-    <div className="py-10">
-      <h2 className="text-2xl font-bold text-center mb-6">New Arrivals</h2>
+    <div className="py-10 px-4 lg:px-16 md:w-10/12 mx-auto">
+      <h2 className="text-2xl font-bold text-center mb-6 text-primary">
+        New Arrivals
+      </h2>
+
       <Swiper
-        direction="vertical"
-        slidesPerView={1}
-        spaceBetween={30}
-        mousewheel={true}
+        slidesPerView={1.1}
+        spaceBetween={16}
+        freeMode={true}
+        autoplay={{
+          delay: 3000,
+          disableOnInteraction: false,
+        }}
         loop={true}
         pagination={{ clickable: true }}
-        modules={[Mousewheel, Pagination]}
-        className="w-full h-[44vh] "
+        breakpoints={{
+          640: {
+            slidesPerView: 1.5,
+            spaceBetween: 20,
+          },
+          768: {
+            slidesPerView: 2.5,
+            spaceBetween: 24,
+          },
+          1024: {
+            slidesPerView: 3.2,
+            spaceBetween: 30,
+          },
+        }}
+        modules={[FreeMode, Pagination,Autoplay]}
+        className="mySwiper"
       >
         {newProducts.map((product) => (
-          <SwiperSlide key={product._id} className="flex justify-center items-center px-10">
-            <div className="card w-full px-4 bg-base-100 shadow-xl p-4 flex flex-col lg:flex-row gap-4">
-              <figure className=" w-full h-80 overflow-hidden rounded-xl">
+          <SwiperSlide key={product._id}>
+            <div className="bg-base-100 shadow-lg rounded-xl overflow-hidden p-4 h-full flex flex-col justify-between">
+              <figure className="w-full h-48 md:h-56 lg:h-60 overflow-hidden rounded-md mb-4">
                 <img
                   src={product.image}
                   alt={product.title}
                   className="w-full h-full object-cover"
                 />
               </figure>
-              <div className="card-body w-full">
-                <h2 className="card-title">{product.title}</h2>
-                <p>Price: ${product.price}</p>
-                <p>Rating: {product.rating}   </p>
-                <p>{product.description}</p>
-                <p className="text-green-600 font-medium mt-2">Details Available</p>
-                <div className="card-actions justify-between mt-4">
-                  <button className="btn btn-primary">Buy Now</button>
+              <div className="flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-lg font-bold text-gray-800 line-clamp-1 mb-1">
+                    {product.title}
+                  </h3>
+
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-green-600 font-semibold">
+                      ${product.price}
+                    </span>
+                    <span className="text-sm line-through text-gray-400">
+                      ${parseInt(product.price) + 100}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center text-yellow-500 text-sm mb-1">
+                    {Array.from({ length: Math.round(product.rating) }).map((_, i) => (
+                      <FaStar key={i} />
+                    ))}
+                    <span className="text-gray-500 ml-2">
+                      ({product.rating})
+                    </span>
+                  </div>
+
+                  <p className="text-sm text-gray-600 line-clamp-2 mb-2">
+                    {product.description}
+                  </p>
+
+                  <p className="text-green-500 font-medium text-xs flex items-center gap-1">
+                    <LiaOpencart className="text-lg" /> Available
+                  </p>
+                </div>
+
+                <div className="mt-4 flex justify-between items-center gap-2">
+                  <button className="btn btn-sm btn-primary bg-green-500 hover:bg-green-600">
+                    Add to Cart
+                  </button>
                   <Link
                     to={`/product/${product._id}`}
-                    className="btn btn-outline btn-secondary"
+                    className="btn btn-sm btn-outline btn-secondary border-green-500 text-green-600 hover:bg-green-100"
                   >
                     View Details
                   </Link>
