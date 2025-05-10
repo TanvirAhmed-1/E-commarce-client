@@ -11,28 +11,28 @@ import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
 const AllProducts = () => {
-  const [range, setRange] = useState([0, 5000]); 
-  const [tempRange, setTempRange] = useState([0, 5000]); 
+  const [range, setRange] = useState([0, 5000]);
+  const [tempRange, setTempRange] = useState([0, 5000]);
   const [sort, setSort] = useState(false);
+  const [ascending, setAscending] = useState(false);
   const [search, setSearch] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
 
-  const [products, loading] = useProduct(sort, search, range);
+  const [products, loading] = useProduct(sort, search, range, ascending);
 
-  // Filtered subcategories
+  // Filter products
   const subPhone = products.filter((v) => v.subcategory === "Phone");
   const subEarphone = products.filter((v) => v.subcategory === "Earphone");
   const subBag = products.filter((v) => v.subcategory === "Bag");
-  const subSunscreenCream = products.filter((v) => v.subcategory === "sunscreen cream");
+  const subSunscreenCream = products.filter(
+    (v) => v.subcategory === "sunscreen cream"
+  );
   const subFaceWash = products.filter((v) => v.subcategory === "Face wash");
   const subWatch = products.filter((v) => v.subcategory === "Watch");
   const suNightCream = products.filter((v) => v.subcategory === "Night cream");
   const subTrimmer = products.filter((v) => v.subcategory === "Trimmer");
   const subFan = products.filter((v) => v.subcategory === "Fan");
   const FreeShipping = products.filter((v) => v.shipping === "Free");
-
-  
-
 
   if (loading) {
     return <LoadingPage />;
@@ -69,17 +69,39 @@ const AllProducts = () => {
           <div className="flex flex-col md:flex-row gap-4">
             <div className="w-full lg:w-[220px] md:w-[190px] bg-white border border-gray-300 rounded-md p-4">
               <TabList className="md:flex flex-col grid grid-cols-2 gap-2 text-black">
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">All</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Phones</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Earphone</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Bag</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Sunscreen Cream</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Face Wash</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Watch</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Night Cream</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Trimmer</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Fan</Tab>
-                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Free Shipping</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  All
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Phones
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Earphone
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Bag
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Sunscreen Cream
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Face Wash
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Watch
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Night Cream
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Trimmer
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Fan
+                </Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">
+                  Free Shipping
+                </Tab>
               </TabList>
 
               {/* Price Slider */}
@@ -103,17 +125,51 @@ const AllProducts = () => {
                 </button>
               </div>
               <div>
-                <div className="divider"></div>
-              <button
-              onClick={() => setSort(!sort)}
-              className="btn btn-sm bg-white text-black hover:bg-gray-200"
-            >
-              {sort ? "Clear Sort" : "Sort by Price"}
-            </button>
+                <h1 className="text-black text-sm font-bold mt-4 mb-2">
+                  Descending Price
+                </h1>
+                {ascending ? (
+                  <button></button>
+                ) : (
+                  <button onClick={() => setSort(!sort)}>
+                    {sort ? (
+                      <p className="btn btn-sm bg-green-500 text-white hover:bg-gray-400">
+                        Sorted
+                      </p>
+                    ) : (
+                      <p className="btn btn-sm bg-white text-black hover:bg-gray-200">
+                        Sort by Price
+                      </p>
+                    )}
+                  </button>
+                )}
+              </div>
+
+              <div>
+                <h1 className="text-black text-sm font-bold mt-4 mb-2">
+                  Ascending Price
+                </h1>
+                {sort ? (
+                  <button></button>
+                ) : (
+                  <button onClick={() => setAscending(!ascending)}>
+                    {ascending ? (
+                      <p className="btn btn-sm bg-green-500 text-white hover:bg-green-400">
+                        Sorted
+                      </p>
+                    ) : (
+                      <p className="btn btn-sm bg-white text-black hover:bg-gray-200">
+                        Sort by Price
+                      </p>
+                    )}
+                  </button>
+                )}
+                {/* {
+               sort && ascending? <p className="text-sm text-red-500">price at a time Ascending or Descending </p>:""
+            } */}
               </div>
             </div>
 
-            {/* Product Grid */}
             <div className="flex-1 p-2">
               <TabPanel>
                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
