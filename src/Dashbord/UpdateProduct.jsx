@@ -17,7 +17,7 @@ const UpdateProduct = () => {
     const dataFind = products.find((v) => v._id === id);
     if (dataFind) {
       setProduct(dataFind);
-      reset(dataFind); // Reset form with the found product data
+      reset(dataFind); 
     }
   }, [id, products, reset]);
 
@@ -109,7 +109,7 @@ const UpdateProduct = () => {
               <option>Fan</option>
               <option>Watch</option>
               <option>Trimmer</option>
-              <option>Beige</option>
+              <option>Bag</option>
               <option>Face wash</option>
               <option>Night cream</option>
               <option>sunscreen cream</option>

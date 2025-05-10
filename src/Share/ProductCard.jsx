@@ -62,9 +62,9 @@ const ProductCard = ({ data }) => {
   };
 
   return (
-    <div className="w-full sm:w-72 md:w-80 lg:w-96 mx-auto">
-      <div className="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <div className="relative h-56 bg-gray-100">
+    <div className="w-full sm:w-72 md:w-64 lg:w-80 mx-auto">
+      <div className="bg-white rounded-2xl shadow-md  overflow-hidden hover:shadow-lg transition-shadow duration-300">
+        <div className="relative h-60 bg-gray-100">
           <img src={image} alt={title} className="object-cover w-full h-full" />
           <button
             onClick={handleFavorite}
@@ -93,12 +93,10 @@ const ProductCard = ({ data }) => {
           </div> */}
 
           <div className=" space-x-4">
-            {/* <span className="text-sm text-gray-600">Price</span> */}
             <span className="text-green-600 font-bold  text-lg">${price}</span>
             <span className="text-gray-600 line-through font-bold text-lg">${price+100}</span>
           </div>
           <div className="flex items-center justify-between">
-            {/* <span className="text-sm text-gray-600">Rating</span> */}
             <div className="flex items-center">
               <div className="rating rating-sm">
                 {[1, 2, 3, 4, 5].map((i) => (

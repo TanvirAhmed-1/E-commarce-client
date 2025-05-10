@@ -4,11 +4,35 @@ import ProductCard from "../Share/ProductCard";
 import LoadingPage from "./Home/LoadingPage";
 import { IoIosSearch } from "react-icons/io";
 import { FaFaceSmileWink } from "react-icons/fa6";
+import { Tabs, TabList, Tab, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import ProductMap from "../Hook/ProductMap";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 const AllProducts = () => {
+  const [range, setRange] = useState([0, 5000]); 
+  const [tempRange, setTempRange] = useState([0, 5000]); 
   const [sort, setSort] = useState(false);
   const [search, setSearch] = useState("");
-  const [products, loading] = useProduct(sort, search);
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const [products, loading] = useProduct(sort, search, range);
+
+  // Filtered subcategories
+  const subPhone = products.filter((v) => v.subcategory === "Phone");
+  const subEarphone = products.filter((v) => v.subcategory === "Earphone");
+  const subBag = products.filter((v) => v.subcategory === "Bag");
+  const subSunscreenCream = products.filter((v) => v.subcategory === "sunscreen cream");
+  const subFaceWash = products.filter((v) => v.subcategory === "Face wash");
+  const subWatch = products.filter((v) => v.subcategory === "Watch");
+  const suNightCream = products.filter((v) => v.subcategory === "Night cream");
+  const subTrimmer = products.filter((v) => v.subcategory === "Trimmer");
+  const subFan = products.filter((v) => v.subcategory === "Fan");
+  const FreeShipping = products.filter((v) => v.shipping === "Free");
+
+  
+
 
   if (loading) {
     return <LoadingPage />;
@@ -16,7 +40,6 @@ const AllProducts = () => {
 
   return (
     <div>
-      {/* Search + Sort Bar */}
       <div className="bg-[#1ABA1A] rounded-xl py-4 px-4 mb-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-3 md:gap-6">
           <div className="relative w-full md:w-[40%]">
@@ -30,31 +53,108 @@ const AllProducts = () => {
           </div>
           <div className="flex flex-wrap justify-center md:justify-evenly gap-2 text-[10px] md:text-xs text-white text-center md:w-[50%]">
             <p>Free shipping over $199</p>
-            <button
-              onClick={() => setSort(!sort)}
-              className="btn btn-sm bg-white text-black hover:bg-gray-200"
-            >
-              {sort ? "Clear Sort" : "Sort by Price"}
-            </button>
             <p>100% secure payment</p>
           </div>
         </div>
       </div>
 
+      {/* If no products found */}
       {products.length === 0 ? (
         <div className="min-h-screen text-black flex flex-col gap-10 justify-center items-center text-2xl mt-10">
           <span>Product not found</span>
           <FaFaceSmileWink className="text-green-400 text-6xl" />
         </div>
       ) : (
-        <>
-          <h1 className="text-2xl font-bold text-center my-6">All Products</h1>
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 p-2">
-            {products.map((v) => (
-              <ProductCard key={v._id} data={v} />
-            ))}
+        <Tabs selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+          <div className="flex flex-col md:flex-row gap-4">
+            <div className="w-full lg:w-[220px] md:w-[190px] bg-white border border-gray-300 rounded-md p-4">
+              <TabList className="md:flex flex-col grid grid-cols-2 gap-2 text-black">
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">All</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Phones</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Earphone</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Bag</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Sunscreen Cream</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Face Wash</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Watch</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Night Cream</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Trimmer</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Fan</Tab>
+                <Tab className="cursor-pointer py-2 px-4 border rounded hover:bg-gray-100">Free Shipping</Tab>
+              </TabList>
+
+              {/* Price Slider */}
+              <div className="mt-6 text-black">
+                <h2 className="text-sm font-bold mb-2">Filter by Price</h2>
+                <Slider
+                  range
+                  min={0}
+                  max={5000}
+                  value={tempRange}
+                  onChange={(value) => setTempRange(value)}
+                />
+                <p className="mt-2 text-xs">
+                  Price: ${tempRange[0]} - ${tempRange[1]}
+                </p>
+                <button
+                  onClick={() => setRange(tempRange)}
+                  className=" btn text-sm bg-green-400 px-3 py-1 rounded-lg border-none hover:bg-green-600 mt-4"
+                >
+                  Apply Filter
+                </button>
+              </div>
+              <div>
+                <div className="divider"></div>
+              <button
+              onClick={() => setSort(!sort)}
+              className="btn btn-sm bg-white text-black hover:bg-gray-200"
+            >
+              {sort ? "Clear Sort" : "Sort by Price"}
+            </button>
+              </div>
+            </div>
+
+            {/* Product Grid */}
+            <div className="flex-1 p-2">
+              <TabPanel>
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+                  {products.map((v) => (
+                    <ProductCard key={v._id} data={v} />
+                  ))}
+                </div>
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={subPhone} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={subEarphone} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={subBag} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={subSunscreenCream} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={subFaceWash} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={subWatch} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={suNightCream} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={subTrimmer} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={subFan} />
+              </TabPanel>
+              <TabPanel>
+                <ProductMap category={FreeShipping} />
+              </TabPanel>
+            </div>
           </div>
-        </>
+        </Tabs>
       )}
     </div>
   );
