@@ -6,6 +6,7 @@ import NavSearch from '../../Components/NavSearch';
 import FreeShopping from './FreeShopping';
 import NewProduct from '../../Share/NewProduct';
 import TopSell from '../../Share/topSell';
+import HighLightProducts from '../HighLightproducts';
 
 
 const Home = () => {
@@ -19,6 +20,7 @@ const Home = () => {
             <TopSell></TopSell>
             <FreeShopping></FreeShopping>
             <NewProduct></NewProduct>
+            <HighLightProducts></HighLightProducts>
         </div>
     );
 };

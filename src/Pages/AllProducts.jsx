@@ -179,34 +179,94 @@ const AllProducts = () => {
                 </div>
               </TabPanel>
               <TabPanel>
-                <ProductMap category={subPhone} />
+                {subPhone.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={subPhone} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={subEarphone} />
+                {subEarphone.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={subEarphone} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={subBag} />
+                {subBag.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={subBag} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={subSunscreenCream} />
+                {subSunscreenCream.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={subSunscreenCream} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={subFaceWash} />
+                {subFaceWash.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={subFaceWash} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={subWatch} />
+                {subWatch.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={subWatch} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={suNightCream} />
+                {suNightCream.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={suNightCream} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={subTrimmer} />
+                {subTrimmer.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={subTrimmer} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={subFan} />
+                {subFan.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={subFan} />
+                )}
               </TabPanel>
               <TabPanel>
-                <ProductMap category={FreeShipping} />
+                {FreeShipping.length === 0 ? (
+                  <div className="text-center text-red-500 text-xl py-10">
+                    Product not available
+                  </div>
+                ) : (
+                  <ProductMap category={FreeShipping} />
+                )}
               </TabPanel>
             </div>
           </div>
