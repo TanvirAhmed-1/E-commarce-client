@@ -80,7 +80,7 @@ const ShowAllProducts = () => {
               <td className="px-4 py-2 border">{product.shipping || "N/A"}</td>
               <td className="px-4 py-2 border text-center">
                 <Link
-                  to={`/UpdateProduct/${product._id}`}
+                  to={`/dashboard/UpdateProduct/${product._id}`}
                   className="text-blue-600 hover:text-blue-800"
                   title="Edit"
                 >

@@ -79,7 +79,7 @@ const NavBar = () => {
 
         <div className="navbar-end gap-2 items-center">
           <Link
-            to={"/favorite"}
+            to={"dashboard/favorite"}
             className=" relative  hover:bg-gray-300 border-none p-2 rounded-full"
           >
             <CiHeart className="text-black text-4xl" />
@@ -92,7 +92,7 @@ const NavBar = () => {
             role="button"
             className="btn btn-ghost btn-circle hover:bg-gray-300  border-none"
           >
-            <Link to={"/yourOrder"} className="indicator">
+            <Link to={"/dashboard"} className="indicator">
               <AiOutlineShoppingCart className="text-black text-3xl" />
               <span className="badge badge-sm indicator-item">
                 {order.length}

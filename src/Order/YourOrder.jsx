@@ -60,14 +60,15 @@ const YourOrder = () => {
     totalPrice: totalPrice,
     discount: discount,
     finalPrice: finalPrice,
+    order:"Pending",
+    method:paymentSelect,
     orderTime: new Date().toISOString(),
   };
 
   const handleCheckout =async () => {
     console.log(orderData);
-    // Post orderData to backend or payment API
+    // Post data to server
     const res= await axiosSecure.post("/order",orderData)
-    console.log(res.data)
     refetch()
     if(res.data.result.insertedId){
         Swal.fire({
@@ -78,7 +79,7 @@ const YourOrder = () => {
             timer: 1500
           });
 
-          navigate("/")
+          // navigate("/")
     }
   };
 

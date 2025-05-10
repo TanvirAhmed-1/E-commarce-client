@@ -1,5 +1,4 @@
 
-
 const HighLightProducts = () => {
   return (
     <div>
