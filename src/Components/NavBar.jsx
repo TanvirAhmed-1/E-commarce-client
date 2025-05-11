@@ -92,7 +92,7 @@ const NavBar = () => {
             role="button"
             className="btn btn-ghost btn-circle hover:bg-gray-300  border-none"
           >
-            <Link to={"/dashboard"} className="indicator">
+            <Link to={"/dashboard/yourOrder"} className="indicator">
               <AiOutlineShoppingCart className="text-black text-3xl" />
               <span className="badge badge-sm indicator-item">
                 {order.length}
@@ -101,12 +101,14 @@ const NavBar = () => {
           </div>
           {users && users.email ? (
             <div className="flex justify-center items-center gap-1">
-              <img
-                className="rounded-full p-2 w-14 h-14 object-cover"
-                src={users?.photoURL}
-                alt=""
-                srcset=""
-              />
+              <Link to={"/dashboard/UserHome"}>
+                <img
+                  className="rounded-full p-2 w-14 h-14 object-cover"
+                  src={users?.photoURL}
+                  alt=""
+                  srcset=""
+                />
+              </Link>
               <Link
                 onClick={handleSignOut}
                 className="btn rounded-xl hover:bg-gray-300 border-none btn-ghost text-black"

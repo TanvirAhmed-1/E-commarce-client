@@ -27,7 +27,7 @@ const Dashboard = () => {
         >
           <FaBars />
         </label>
-        <div className="p-4">
+        <div className="py-4">
           <Outlet />
         </div>
       </div>
@@ -38,7 +38,7 @@ const Dashboard = () => {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu p-4 md:w-80 w-60 min-h-full bg-green-400 text-gray-800 text-lg font-semibold space-y-2">
+        <ul className="menu py-4 md:w-80 w-60 min-h-full bg-green-400 text-gray-800 text-lg font-semibold space-y-2">
     
           {isAdmin ? (
             <>
@@ -86,7 +86,7 @@ const Dashboard = () => {
           ) : (
             <>
               <li>
-                <NavLink to="/">
+                <NavLink to="/dashboard/UserHome">
                   <FaHome /> Home
                 </NavLink>
               </li>

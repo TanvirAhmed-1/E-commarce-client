@@ -18,6 +18,7 @@ import AllUser from "../Pages/Dashboard/Admin/AllUser";
 import OrderStatus from "../Pages/Dashboard/Admin/OrderStatus";
 import UserBooking from "../Pages/Dashboard/UserBooking";
 import UserPaymentHistory from './../Pages/Dashboard/UserPaymentHistory';
+import UserHome from "../Pages/Dashboard/User/UserHome";
 
 const Router = createBrowserRouter([
   {
@@ -92,6 +93,10 @@ const Router = createBrowserRouter([
           {
         path: "/dashboard/UserPaymentMethod",
         element: <UserPaymentHistory></UserPaymentHistory>,
+      },
+                {
+        path: "/dashboard/UserHome",
+        element: <UserHome></UserHome>,
       },
     ],
   },
