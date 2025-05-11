@@ -13,7 +13,7 @@ import { TbShoppingCartStar } from "react-icons/tb";
 import { NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
-  const isAdmin = false;
+  const isAdmin = true;
 
   return (
     <div className="drawer  lg:drawer-open">
@@ -43,7 +43,7 @@ const Dashboard = () => {
           {isAdmin ? (
             <>
               <li>
-                <NavLink to="/">
+                <NavLink to="/dashboard/AdminHome">
                   <FaHome /> Admin Home
                 </NavLink>
               </li>

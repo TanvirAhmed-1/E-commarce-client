@@ -17,8 +17,9 @@ import ErrorPage from "../Components/ErrorPage";
 import AllUser from "../Pages/Dashboard/Admin/AllUser";
 import OrderStatus from "../Pages/Dashboard/Admin/OrderStatus";
 import UserBooking from "../Pages/Dashboard/UserBooking";
-import UserPaymentHistory from './../Pages/Dashboard/UserPaymentHistory';
+import UserPaymentHistory from "./../Pages/Dashboard/UserPaymentHistory";
 import UserHome from "../Pages/Dashboard/User/UserHome";
+import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 
 const Router = createBrowserRouter([
   {
@@ -90,13 +91,17 @@ const Router = createBrowserRouter([
         path: "/dashboard/UserBooking",
         element: <UserBooking></UserBooking>,
       },
-          {
+      {
         path: "/dashboard/UserPaymentMethod",
         element: <UserPaymentHistory></UserPaymentHistory>,
       },
-                {
+      {
         path: "/dashboard/UserHome",
         element: <UserHome></UserHome>,
+      },
+            {
+        path: "/dashboard/AdminHome",
+        element: <AdminHome></AdminHome>,
       },
     ],
   },
