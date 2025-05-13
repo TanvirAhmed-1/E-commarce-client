@@ -164,9 +164,6 @@ const AllProducts = () => {
                     )}
                   </button>
                 )}
-                {/* {
-               sort && ascending? <p className="text-sm text-red-500">price at a time Ascending or Descending </p>:""
-            } */}
               </div>
             </div>
 

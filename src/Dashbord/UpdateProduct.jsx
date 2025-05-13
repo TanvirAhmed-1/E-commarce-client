@@ -2,13 +2,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import useProduct from "../Hook/useProduct";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import AxiosPublic from './../Hook/AxiosPublic';
+import AxiosPublic from "./../Hook/AxiosPublic";
 import Swal from "sweetalert2";
 
 const UpdateProduct = () => {
   const { id } = useParams();
   const [products] = useProduct();
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState([]);
   const { register, handleSubmit, reset } = useForm();
   const axiosPublic = AxiosPublic();
   const navigate = useNavigate();
@@ -17,22 +17,32 @@ const UpdateProduct = () => {
     const dataFind = products.find((v) => v._id === id);
     if (dataFind) {
       setProduct(dataFind);
-      reset(dataFind); 
+      reset(dataFind)
     }
-  }, [id, products, reset]);
+  }, [id, products,reset ]);
+
+   console.log(  "bvisvbuh",product)
 
   const onSubmit = async (data) => {
     if (!product || !product._id) {
       return navigate("/login");
     }
 
-    console.log(data)
-    const{_id , ...updateData}=data
-    console.log(updateData)
+    console.log("input data",data);
+    const { _id,price, ...data2 } = data;
+    const prices = parseInt(price);
+    const updateData = {
+      ...data2,
+      price: prices,
+    };
+    console.log("Update data",updateData)
     try {
-      const res = await axiosPublic.patch(`/update/product/${product._id}`, updateData);
-      console.log(res.data)
-      if( res.data.matchedCount> 0) {
+      const res = await axiosPublic.patch(
+        `/update/product/${product._id}`,
+        updateData
+      );
+      console.log(res.data);
+      if (res.data.matchedCount > 0) {
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -44,6 +54,7 @@ const UpdateProduct = () => {
     } catch (err) {
       console.log(err.message);
     }
+     navigate("/dashboard/showAllProducts")
   };
 
   return (
@@ -61,7 +72,7 @@ const UpdateProduct = () => {
             <input
               {...register("title")}
               placeholder="Enter product title"
-              defaultValue={product?.title}
+              defaultValue={product?.title || ""}
               className="input input-bordered w-full px-3 py-2 rounded-md"
             />
           </div>
@@ -81,7 +92,7 @@ const UpdateProduct = () => {
             <input
               {...register("image2")}
               placeholder="Enter image URL"
-              defaultValue={product?.image2 }
+              defaultValue={product?.image2}
               className="input input-bordered w-full px-3 py-2 rounded-md"
             />
           </div>
@@ -126,7 +137,7 @@ const UpdateProduct = () => {
               <option value="">Select Category</option>
               <option>Phone</option>
               <option>Electronic</option>
-              <option>Fauchon</option>
+              <option>Fashion</option>
               <option>Cosmetic</option>
               <option>Others</option>
             </select>
@@ -150,8 +161,8 @@ const UpdateProduct = () => {
               className="select select-bordered w-full px-3 py-2 rounded-md"
               defaultValue={product?.availability}
             >
-              <option value="true">Available</option>
-              <option value="false">Not Available</option>
+              <option >Available</option>
+              <option >Not Available</option>
             </select>
           </div>
 
@@ -160,10 +171,25 @@ const UpdateProduct = () => {
             <select
               {...register("shipping")}
               className="select select-bordered w-full px-3 py-2 rounded-md"
-              defaultValue={product?.shipping || "false"}
+              defaultValue={product?.shipping}
             >
               <option value="Free">Free</option>
-              <option value="Payed">Payed</option>
+              <option value="60">60</option>
+              <option value="120">120</option>
+              <option value="100">100</option>
+            </select>
+          </div>
+
+          <div className="col-span-1">
+            <label className="block text-gray-700 mb-2">Display</label>
+            <select
+              {...register("display")}
+              className="select select-bordered w-full px-3 py-2 rounded-md"
+              defaultValue={product?.display}
+            >
+              <option value="Highlight">Highlight</option>
+              <option value="Highlight2">Highlight2</option>
+              <option value="special">special</option>
               <option value="New">New</option>
               <option value="Top Sell">Top Sell</option>
             </select>
@@ -176,7 +202,7 @@ const UpdateProduct = () => {
               step="0.1"
               {...register("rating")}
               placeholder="Enter rating"
-              defaultValue={product?.rating || ""}
+              defaultValue={product?.rating || 4}
               className="input input-bordered w-full px-3 py-2 rounded-md"
             />
           </div>

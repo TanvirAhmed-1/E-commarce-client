@@ -5,13 +5,14 @@ import Swal from "sweetalert2";
 import AxiosPublic from "../Hook/AxiosPublic";
 import useTanStackQuery from "../Hook/useTanStackQuery";
 import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
+import { LiaShoppingCartSolid } from "react-icons/lia";
 
 const ProductCard = ({ data }) => {
   const [liked, setLiked] = useState(false);
   const [, , refetch] = useTanStackQuery();
   const [, refetchOrder] = useOrderTanStackQuery();
   const axiosPublic = AxiosPublic();
-  const { _id, title, image, price, rating, shipping } = data;
+  const { _id, title, image1, price, rating, shipping } = data;
 
   const handleFavorite = async () => {
     try {
@@ -62,13 +63,13 @@ const ProductCard = ({ data }) => {
   };
 
   return (
-    <div className="w-full sm:w-72 md:w-64 lg:w-80 mx-auto">
+    <div className="w-full sm:w-72 md:w-80 mx-auto">
       <div className="bg-white rounded-2xl shadow-md  overflow-hidden hover:shadow-lg transition-shadow duration-300">
         <div className="relative h-60 bg-gray-100">
-          <img src={image} alt={title} className="object-cover w-full h-full" />
+          <img src={image1} alt={title} className="object-cover w-full h-full" />
           <button
             onClick={handleFavorite}
-            className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-red-100 transition"
+            className="absolute top-2 right-2 hover:scale-105 duration-1000 group-hover:duration-100 bg-white p-2 rounded-full shadow-md hover:bg-red-100 transition"
           >
             {liked ? (
               <FaHeart className="text-red-500 text-xl" />
@@ -82,15 +83,6 @@ const ProductCard = ({ data }) => {
           <h2 className="text-lg font-semibold text-gray-800 truncate">
             {title}
           </h2>
-
-          {/* <div className="flex justify-between text-sm text-gray-600">
-            <span>Shipping</span>
-            <span
-              className={shipping === "Free" ? "text-green-500 font-bold" : ""}
-            >
-              {shipping === "Free" ? "Free" : "pay"}
-            </span>
-          </div> */}
 
           <div className=" space-x-4">
             <span className="text-green-600 font-bold  text-lg">${price}</span>
@@ -114,16 +106,16 @@ const ProductCard = ({ data }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 pt-3">
+          <div className="flex justify-between px-2 items-center flex-row-reverse gap-3 pt-3">
             <button
               onClick={handleAddToCart}
-              className="bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl text-sm font-semibold"
+              className="hover:bg-green-600 transform  hover:scale-105 text-green-400 rounded-full text-4xl group-hover:opacity-100 hover:text-white p-1 transition duration-1000 group-hover:duration-100"
             >
-              Add to Cart
+              <LiaShoppingCartSolid className="" />
             </button>
             <Link
               to={`/ProductDetails/${_id}`}
-              className="bg-gray-800 hover:bg-black text-white py-2 rounded-xl text-sm font-semibold text-center"
+              className="bg-gray-800 hover:bg-black text-white py-2 px-3 rounded-xl text-sm font-semibold text-center"
             >
               View Details
             </Link>

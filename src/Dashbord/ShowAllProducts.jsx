@@ -3,9 +3,14 @@ import useProduct from "../Hook/useProduct";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import useAxiosSecure from "../Hook/useAxiosSecure";
 import Swal from "sweetalert2";
+import LoadingPage2 from './../Pages/LoadingPage2';
+import { useState } from "react";
 
 const ShowAllProducts = () => {
-  const [products, refetch] = useProduct();
+
+  const  [delete1, setDelete] = useState("false")
+
+  const [products, loading] = useProduct(delete1);
   const axiosSecure = useAxiosSecure();
 
   const handleDelete = async (id) => {
@@ -23,7 +28,7 @@ const ShowAllProducts = () => {
       try {
         const res = await axiosSecure.delete(`/products/delete/${id}`);
         if (res.data.deletedCount > 0) {
-          refetch();
+            setDelete(!delete1)
           Swal.fire({
             position: "top-center",
             icon: "success",
@@ -38,6 +43,10 @@ const ShowAllProducts = () => {
       }
     }
   };
+
+  if(loading>0){
+    return <LoadingPage2></LoadingPage2>
+  }
 
   return (
     <div className="p-6 bg-white rounded-xl shadow-lg overflow-x-auto">
@@ -55,13 +64,14 @@ const ShowAllProducts = () => {
             <th className="px-4 py-2 border">Price</th>
             <th className="px-4 py-2 border">Available</th>
             <th className="px-4 py-2 border">Shipping</th>
+            <th className="px-4 py-2 border">Display</th>
             <th className="px-4 py-2 border">Update</th>
             <th className="px-4 py-2 border">Delete</th>
           </tr>
         </thead>
         <tbody>
           {products?.map((product, index) => (
-            <tr key={product._id} className="hover:bg-gray-50 text-black">
+            <tr key={product._id} className="hover:bg-gray-50  text-black">
               <td className="px-4 py-2 border">{index + 1}</td>
               <td className="px-4 py-2 border">
                 <img
@@ -70,21 +80,22 @@ const ShowAllProducts = () => {
                   className="w-16 h-16 object-cover rounded-md"
                 />
               </td>
-              <td className="px-4 py-2 border">{product.title}</td>
-              <td className="px-4 py-2 border">{product.category}</td>
-              <td className="px-4 py-2 border">{product.subcategory}</td>
-              <td className="px-4 py-2 border">${product.price}</td>
-              <td className="px-4 py-2 border">
+              <td className=" text-sm text-center line-clamp-2 py-2 border-t">{product.title}</td>
+              <td className="text-center py-2 border">{product.category}</td>
+              <td className="text-center py-2 border">{product.subcategory}</td>
+              <td className="text-center border">${product.price}</td>
+              <td className="text-center border">
                 {product.availability === "true" ? "Yes" : "No"}
               </td>
-              <td className="px-4 py-2 border">{product.shipping || "N/A"}</td>
+              <td className="text-center border">{product.shipping}</td>
+              <td className=" text-center  border">{product.display}</td>
               <td className="px-4 py-2 border text-center">
                 <Link
                   to={`/dashboard/UpdateProduct/${product._id}`}
-                  className="text-blue-600 hover:text-blue-800"
+                  className="text-blue-600  hover:text-blue-800"
                   title="Edit"
                 >
-                  <FaEdit />
+                  <FaEdit className="text-center" />
                 </Link>
               </td>
               <td className="px-4 py-2 border text-center">

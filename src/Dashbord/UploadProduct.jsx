@@ -16,8 +16,16 @@ const UploadProduct = () => {
     if(!users || !users.email){
       return navigate("/login")
     }
+
+     const{price, ...data2}=data
+     const prices=parseInt(price)
+     const updateData={
+     ...data2,
+     price: prices
+     }
+
     try{
-      const res=await axiosPublic.post("products",data)
+      const res=await axiosPublic.post("products",updateData)
       console.log(res.data)
       if(res.data.insertedId){
         Swal.fire({
@@ -132,8 +140,8 @@ const UploadProduct = () => {
           {...register("availability")}
           className="w-full bg-gray-600 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         >
-          <option value="true">Available</option>
-          <option value="false">Not Available</option>
+          <option >Available</option>
+          <option >Not Available</option>
         </select>
       </div>
 
@@ -143,10 +151,10 @@ const UploadProduct = () => {
           {...register("availability")}
           className="w-full bg-gray-600 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
         >
-          <option value="true">Free</option>
-          <option value="false">60</option>
-          <option value="false">100</option>
-          <option value="false">120</option>
+          <option value="Free">Free</option>
+          <option value="60">60</option>
+          <option value="100">100</option>
+          <option value="120">120</option>
         </select>
       </div>
 
@@ -169,17 +177,6 @@ const UploadProduct = () => {
           className="w-full bg-gray-600 border border-gray-300 px-4 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
           rows="4"
         />
-      </div>
-
-      <div className="md:col-span-2">
-        <label className="inline-flex items-center gap-2 text-gray-700">
-          <input
-            type="checkbox"
-            {...register("recommended")}
-            className="accent-green-500"
-          />
-          Mark as Recommended
-        </label>
       </div>
 
       <div className="md:col-span-2 text-center mt-4">
