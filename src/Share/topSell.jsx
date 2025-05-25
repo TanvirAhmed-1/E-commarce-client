@@ -1,4 +1,4 @@
-import React from "react";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper/modules";
 
@@ -19,11 +19,11 @@ const NewProduct = () => {
   if (loading) return <LoadingPage />;
 
   const newProducts = products.filter(
-    (product) => product.shipping === "Top Sell"
+    (product) => product.display === "Top Sell"
   );
-
+ 
   return (
-    <div className="py-10 px-4 lg:px-16 md:w-10/12 mx-auto">
+    <div className="py-6 px-6 lg:px-10 md:w-10/12 mx-auto">
       <h2 className="text-3xl font-bold text-center mb-8 text-primary">
         Top Selling Products
       </h2>
@@ -56,17 +56,17 @@ const NewProduct = () => {
       >
         {newProducts.map((product) => (
           <SwiperSlide key={product._id}>
-            <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col gap-3 md:flex-row h-full hover:shadow-lg transition">
-              <div className="md:w-1/2">
+            <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col gap-3 md:flex-row h-full hover:shadow-lg transition px-6 py-6">
+              <div className="md:w-1/2 overflow-hidden">
                 <img
-                  src={product.image}
+                  src={product.image1}
                   alt={product.title}
-                  className="w-full h-56 md:h-full object-cover"
+                  className="w-full h-64 md:h-full object-cover"
                 />
               </div>
               <div className="p-4 flex flex-col justify-between flex-1 px-4">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-2 line-clamp-2">
                     {product.title}
                   </h3>
                   <div className="flex items-center gap-3 mb-2">

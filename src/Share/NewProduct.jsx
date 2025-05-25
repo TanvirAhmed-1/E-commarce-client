@@ -20,7 +20,9 @@ const NewProduct = () => {
     return <LoadingPage />;
   }
 
-  const newProducts = products.filter((product) => product.shipping === "New");
+  const newProducts = products.filter((product) => product.display=== "New");
+
+   console.log("Top sell2",newProducts,products)
 
   return (
     <div className="py-10 px-4 lg:px-16 md:w-10/12 mx-auto">
@@ -57,10 +59,10 @@ const NewProduct = () => {
       >
         {newProducts.map((product) => (
           <SwiperSlide key={product._id}>
-            <div className="bg-base-100 shadow-lg rounded-xl overflow-hidden p-4 h-full flex flex-col justify-between">
+            <div className="bg-[#EAEFEF] shadow-lg rounded-xl overflow-hidden p-4 h-full flex flex-col justify-between">
               <figure className="w-full h-48 md:h-56 lg:h-60 overflow-hidden rounded-md mb-4">
                 <img
-                  src={product.image}
+                  src={product.image3}
                   alt={product.title}
                   className="w-full h-full object-cover"
                 />
@@ -99,12 +101,12 @@ const NewProduct = () => {
                 </div>
 
                 <div className="mt-4 flex justify-between items-center gap-2">
-                  <button className="btn btn-sm btn-primary bg-green-500 hover:bg-green-600">
+                  <button className="btn border-none btn-sm btn-primary bg-green-500 hover:bg-green-600">
                     Add to Cart
                   </button>
                   <Link
                     to={`/product/${product._id}`}
-                    className="btn btn-sm btn-outline btn-secondary border-green-500 text-green-600 hover:bg-green-100"
+                    className="btn btn-sm btn-outline bg-[#8ACCD5] border-none text-white btn-secondary border-green-500  hover:bg-[#9EC6F3]"
                   >
                     View Details
                   </Link>
