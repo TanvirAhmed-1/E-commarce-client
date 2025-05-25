@@ -4,15 +4,19 @@ import AxiosPublic from './../Hook/AxiosPublic';
 import Swal from "sweetalert2";
 import { AuthContext } from "../Components/Authontation/Authorization";
 import { useNavigate } from "react-router-dom";
+import LoadingPage2 from './../Pages/LoadingPage2';
 
 const UploadProduct = () => {
   const { register, handleSubmit, reset } = useForm();
+  const [loader,setLoader]=useState(false)
   const axiosPublic=AxiosPublic()
   const{users}=useContext(AuthContext)
   const navigate=useNavigate()
 
 
   const onSubmit =async (data) => {
+
+    setLoader(true)
     if(!users || !users.email){
       return navigate("/login")
     }
@@ -28,6 +32,7 @@ const UploadProduct = () => {
       const res=await axiosPublic.post("products",updateData)
       console.log(res.data)
       if(res.data.insertedId){
+        setLoader(false)
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -39,10 +44,14 @@ const UploadProduct = () => {
       reset();
     }
     catch(err){
+      setLoader(false)
       console.log(err.message)
     }
   
   };
+  if(loader){
+    return<LoadingPage2></LoadingPage2>
+  }
 
   return (
 <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
