@@ -11,9 +11,18 @@ import {
 } from "react-icons/md";
 import { TbShoppingCartStar } from "react-icons/tb";
 import { NavLink, Outlet } from "react-router-dom";
+import AllUserTanStackQuery from "../../Hook/AllUserTanStackQuery";
+import { useContext } from "react";
+import { AuthContext } from "../../Components/Authontation/Authorization";
 
 const Dashboard = () => {
-  const isAdmin = true;
+  const {users} = useContext(AuthContext);
+  const [user, refetch] = AllUserTanStackQuery();
+  const currentUser = user?.find((u) => u.Email === users?.email);
+  const isAdmin = currentUser?.role === "Admin";
+
+  // console.log(user.role);
+  // const isAdmin = true;
 
   return (
     <div className="drawer  lg:drawer-open">
@@ -39,7 +48,6 @@ const Dashboard = () => {
           className="drawer-overlay"
         ></label>
         <ul className="menu py-4 md:w-80 w-60 min-h-full bg-green-400 text-gray-800 text-lg font-semibold space-y-2">
-    
           {isAdmin ? (
             <>
               <li>
