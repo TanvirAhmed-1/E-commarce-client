@@ -1,6 +1,6 @@
 import axios from "axios";
 const instanceSecure = axios.create({
-    baseURL: "http://localhost:5000",
+    baseURL: "https://server-chi-teal-11.vercel.app",
   });
 const useAxiosSecure = () => {
     return instanceSecure

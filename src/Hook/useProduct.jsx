@@ -10,7 +10,7 @@ const useProduct = (sort = "", search = "", range = [0, 5000], ascending = "", d
   useEffect(() => {
     axios
       .get(
-        `http://localhost:5000/products?sort=${sort}&search=${search}&min=${range[0]}&max=${range[1]}&ass=${ascending}`
+        `https://server-chi-teal-11.vercel.app/products?sort=${sort}&search=${search}&min=${range[0]}&max=${range[1]}&ass=${ascending}`
       )
       .then((res) => {
         setProducts(res.data);
