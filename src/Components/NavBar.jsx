@@ -69,7 +69,7 @@ const NavBar = () => {
             </ul>
           </div>
           <a className="btn btn-ghost text-xl hover:bg-gray-300 border-none text-black">
-            daisyUI
+            Trendy Products BD
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
@@ -91,7 +91,7 @@ const NavBar = () => {
             role="button"
             className="btn btn-ghost btn-circle hover:bg-gray-300  border-none"
           >
-            <Link to={"/dashboard/yourOrder"} className="indicator">
+            <Link to={"/yourOrder"} className="indicator">
               <AiOutlineShoppingCart className="text-black text-3xl" />
               <span className="badge badge-sm indicator-item">
                 {order.length}

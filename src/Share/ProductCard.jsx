@@ -1,28 +1,40 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import AxiosPublic from "../Hook/AxiosPublic";
 import useTanStackQuery from "../Hook/useTanStackQuery";
 import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
 import { LiaShoppingCartSolid } from "react-icons/lia";
+import Loader from "../Pages/Home/Loader";
+import { AuthContext } from "../Components/Authontation/Authorization";
 
 const ProductCard = ({ data }) => {
   const [liked, setLiked] = useState(false);
   const [, , refetch] = useTanStackQuery();
   const [, refetchOrder] = useOrderTanStackQuery();
   const axiosPublic = AxiosPublic();
+  const [pAddLoading, setPAddLoading] = useState(false);
+  const navigation=useNavigate()
+  const{users}=useContext(AuthContext)
   const { _id, title, image1, price, rating, shipping } = data;
 
   const handleFavorite = async () => {
+        if(!users){
+      navigation("/login")
+      return
+    }
+    setPAddLoading(true)
     try {
       const res = await axiosPublic.post("/favorite", data);
       refetch();
+      setPAddLoading(false)
       if (res.data.acknowledged) {
+
         Swal.fire({
           position: "top-center",
           icon: "success",
-          title: "Your work has been saved",
+          title: "Successfully Added to wishlist!",
           showConfirmButton: false,
           timer: 800
         });
@@ -30,10 +42,11 @@ const ProductCard = ({ data }) => {
       }
     } catch (err) {
       console.log(err);
+      setPAddLoading(false)
       Swal.fire({
         position: "top-center",
-        icon: "success",
-        title: "Your work has been saved",
+        icon: "error",
+        title: "Already Added to wishlist!",
         showConfirmButton: false,
         timer: 800
       });
@@ -41,12 +54,18 @@ const ProductCard = ({ data }) => {
   };
 
   const handleAddToCart = async () => {
+        if(!users){
+      navigation("/login")
+      return
+    }
+    setPAddLoading(true)
     const { _id, ...rest } = data;
     const sendData = { orderId: _id, ...rest };
 
     try {
       const res = await axiosPublic.post("/addToCard", sendData);
       refetchOrder();
+      setPAddLoading(false)
       if (res.data.acknowledged) {
         Swal.fire({
           position: "top-center",
@@ -57,6 +76,7 @@ const ProductCard = ({ data }) => {
         });
       }
     } catch (err) {
+      setPAddLoading(false)
       console.log(err);
       Swal.fire("Product already in cart!");
     }
@@ -64,7 +84,7 @@ const ProductCard = ({ data }) => {
 
   return (
     <div className="w-full sm:w-72 md:w-80 mx-auto">
-      <div className="bg-white rounded-2xl shadow-md  overflow-hidden hover:shadow-lg transition-shadow duration-300">
+      <div className="bg-white rounded-2xl shadow-md border-2 border-solid border-gray-200  overflow-hidden hover:shadow-lg transition-shadow duration-300">
         <div className="relative h-60 bg-gray-100">
           <img src={image1} alt={title} className="object-cover w-full h-full" />
           <button
@@ -122,6 +142,7 @@ const ProductCard = ({ data }) => {
           </div>
         </div>
       </div>
+      {pAddLoading && <Loader />}
     </div>
   );
 };

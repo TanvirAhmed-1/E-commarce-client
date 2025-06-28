@@ -119,6 +119,7 @@ const YourOrder = () => {
     );
   }
 
+
   return (
     <div className="bg-white px-4 py-6">
       <h1 className="text-2xl font-bold mb-4 text-center text-black">
@@ -133,7 +134,7 @@ const YourOrder = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 items-center gap-4">
                 <div className="border p-2 w-full md:w-28 mx-auto">
                   <img
-                    src={v?.image}
+                    src={v?.image1}
                     alt={v?.name}
                     className="w-full h-auto object-cover"
                   />

@@ -1,28 +1,37 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Pagination } from "swiper/modules";
-import { Autoplay} from "swiper/modules";
+import { Autoplay } from "swiper/modules";
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
+import "./NewProductCSS.css";
 
 import useProduct from "../Hook/useProduct";
 import LoadingPage from "./../Pages/Home/LoadingPage";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { LiaOpencart } from "react-icons/lia";
+import useAddToCart from "../Hook/useAddToCart";
+import { AuthContext } from "../Components/Authontation/Authorization";
 
 const NewProduct = () => {
   const [products, loading] = useProduct();
+  const { users } = useContext(AuthContext);
+  const { handleAddToCart, pAddLoading } = useAddToCart();
+
+   const HandleAddToCart=(products)=>{
+     handleAddToCart(products, users);
+  }
 
   if (loading) {
     return <LoadingPage />;
   }
 
-  const newProducts = products.filter((product) => product.display=== "New");
+  const newProducts = products.filter((product) => product.display === "New");
 
-   console.log("Top sell2",newProducts,products)
+  console.log("Top sell2", newProducts, products);
 
   return (
     <div className="py-10 px-4 lg:px-16 md:w-10/12 mx-auto">
@@ -54,12 +63,12 @@ const NewProduct = () => {
             spaceBetween: 30,
           },
         }}
-        modules={[FreeMode, Pagination,Autoplay]}
+        modules={[FreeMode, Pagination, Autoplay]}
         className="mySwiper"
       >
         {newProducts.map((product) => (
           <SwiperSlide key={product._id}>
-            <div className="bg-[#EAEFEF] shadow-lg rounded-xl overflow-hidden p-4 h-full flex flex-col justify-between">
+            <div className="bg-[#EAEFEF] shadow-lg rounded-xl overflow-hidden p-4 h-full flex flex-col justify-between pb-6">
               <figure className="w-full h-48 md:h-56 lg:h-60 overflow-hidden rounded-md mb-4">
                 <img
                   src={product.image3}
@@ -83,9 +92,11 @@ const NewProduct = () => {
                   </div>
 
                   <div className="flex items-center text-yellow-500 text-sm mb-1">
-                    {Array.from({ length: Math.round(product.rating) }).map((_, i) => (
-                      <FaStar key={i} />
-                    ))}
+                    {Array.from({ length: Math.round(product.rating) }).map(
+                      (_, i) => (
+                        <FaStar key={i} />
+                      )
+                    )}
                     <span className="text-gray-500 ml-2">
                       ({product.rating})
                     </span>
@@ -101,12 +112,13 @@ const NewProduct = () => {
                 </div>
 
                 <div className="mt-4 flex justify-between items-center gap-2">
-                  <button className="btn border-none btn-sm btn-primary bg-green-500 hover:bg-green-600">
-                    Add to Cart
+                  <button onClick={()=>HandleAddToCart(product)} className="btn border-none btn-sm btn-primary bg-green-500 hover:bg-green-600">
+                    Buy Now
                   </button>
                   <Link
-                    to={`/product/${product._id}`}
-                    className="btn btn-sm btn-outline bg-[#8ACCD5] border-none text-white btn-secondary border-green-500  hover:bg-[#9EC6F3]"
+                    
+                    to={`/ProductDetails/${product._id}`}
+                    className="btn btn-sm btn-outline bg-[#34ddf4] border-none text-white btn-secondary border-green-500  hover:bg-[#4c94e6]"
                   >
                     View Details
                   </Link>

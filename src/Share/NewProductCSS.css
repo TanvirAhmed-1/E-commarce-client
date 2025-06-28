@@ -1,0 +1,7 @@
+.swiper-horizontal > .swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal{
+  
+  bottom: -8px !important;
+  left: 50% !important;
+  transform: translateX(-50%);
+  text-align: center;
+}

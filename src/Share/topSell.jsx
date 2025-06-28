@@ -1,4 +1,3 @@
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Keyboard, Scrollbar, Navigation, Pagination } from "swiper/modules";
 
@@ -12,18 +11,28 @@ import LoadingPage from "./../Pages/Home/LoadingPage";
 import { Link } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import { LiaOpencart } from "react-icons/lia";
+import useAddToCart from "../Hook/useAddToCart";
+import { AuthContext } from "../Components/Authontation/Authorization";
+import { useContext } from "react";
+import Loader from "../Pages/Home/Loader";
 
 const NewProduct = () => {
   const [products, loading] = useProduct();
+    const { users } = useContext(AuthContext);
+  const { handleAddToCart, pAddLoading } = useAddToCart();
 
+
+  const HandleAddToCart=(products)=>{
+     handleAddToCart(products, users);
+  }
   if (loading) return <LoadingPage />;
 
   const newProducts = products.filter(
     (product) => product.display === "Top Sell"
   );
- 
+
   return (
-    <div className="py-6 px-6 lg:px-10 md:w-10/12 mx-auto">
+    <div className="py-6  lg:px-10 md:w-10/12 mx-auto">
       <h2 className="text-3xl font-bold text-center mb-8 text-primary">
         Top Selling Products
       </h2>
@@ -56,8 +65,8 @@ const NewProduct = () => {
       >
         {newProducts.map((product) => (
           <SwiperSlide key={product._id}>
-            <div className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col gap-3 md:flex-row h-full hover:shadow-lg transition px-6 py-6">
-              <div className="md:w-1/2 overflow-hidden">
+            <div className="bg-white border-solid border-gray-200 border-2  rounded-xl shadow-md overflow-hidden flex flex-col gap-3 md:flex-row h-full hover:shadow-lg transition px-6 py-6">
+              <div className="md:w-1/2 overflow-hidden rounded-md">
                 <img
                   src={product.image1}
                   alt={product.title}
@@ -95,12 +104,13 @@ const NewProduct = () => {
                   </p>
                 </div>
                 <div className="mt-4 flex justify-between items-center">
-                  <button className="btn btn-sm btn-primary px-4">
+                  <Link onClick={()=>HandleAddToCart(product)} className="btn btn-sm btn-primary px-4 py-3 rounded-br-3xl transition-all duration-300  transform  hover:rounded-lg">
                     Buy Now
-                  </button>
+                  </Link>
+
                   <Link
-                    to={`/product/${product._id}`}
-                    className="btn btn-sm btn-outline btn-secondary px-4"
+                    to={`/ProductDetails/${product._id}`}
+                    className="btn btn-sm btn-outline btn-secondary px-4 py-4 hover:rounded-lg"
                   >
                     View Details
                   </Link>
@@ -110,6 +120,7 @@ const NewProduct = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+      {pAddLoading && <Loader />}
     </div>
   );
 };

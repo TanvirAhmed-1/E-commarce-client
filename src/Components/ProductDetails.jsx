@@ -1,10 +1,13 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AxiosPublic from "../Hook/AxiosPublic";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { FaStar } from "react-icons/fa";
 import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
 import { LiaOpencart } from "react-icons/lia";
+import LoadingPage2 from "../Pages/LoadingPage2";
+import Loader from "../Pages/Home/Loader";
+import { AuthContext } from './Authontation/Authorization';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -12,6 +15,9 @@ const ProductDetails = () => {
   const [product, setProduct] = useState(null);
   const [activeImage, setActiveImage] = useState("");
   const [order, refetch] = useOrderTanStackQuery();
+  const [pAddLoading, setPAddLoading] = useState(false);
+  const{users}=useContext(AuthContext)
+  const navigation=useNavigate()
 
   useEffect(() => {
     axiosPublic
@@ -23,9 +29,15 @@ const ProductDetails = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, [id]);
+  }, []);
 
   const HandleAddToCard = async () => {
+    if(!users){
+      navigation("/login")
+      return
+    }
+    setPAddLoading(true);
+
     const { _id, ...data } = product;
     const sendData = {
       orderId: _id,
@@ -36,6 +48,7 @@ const ProductDetails = () => {
       const res = await axiosPublic.post("/addToCard", sendData);
       refetch();
       if (res.data.insertedId) {
+        setPAddLoading(false);
         Swal.fire({
           position: "top-center",
           icon: "success",
@@ -47,17 +60,18 @@ const ProductDetails = () => {
     } catch (err) {
       console.log(err);
       if (err.message === "Request failed with status code 500")
-        Swal.fire({
-          position: "top-center",
-          icon: "error",
-          title: "Product Already Added!",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+        setPAddLoading(false);
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: "Product Already Added!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
     }
   };
 
-  if (!product) return <div className="text-center text-black">Loading...</div>;
+  if (!product) return <LoadingPage2></LoadingPage2>;
 
   const {
     title,
@@ -152,10 +166,12 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+
       <div className="w-8/12 mx-auto mt-10 p-6 ">
         <h1 className=" text-xl text-black font-semibold ">Product Details </h1>
         <p className="text-gray-700 text-lg mb-4 ">{description}</p>
       </div>
+      {pAddLoading && <Loader />}
     </div>
   );
 };
