@@ -18,16 +18,15 @@ const NavBar = () => {
 
   const handleSignOut = () => {
     userSignOut()
-      .then(async(data) => {
-              try {
-        await refetch();  
-        await refetch2();  
-      } catch (err) {
-        console.warn("Refetch error after logout:", err.message);
-      }
-        
-        setUsers(data.user);
+      .then(async (data) => {
+        try {
+          await refetch();
+          await refetch2();
+        } catch (err) {
+          console.warn("Refetch error after logout:", err.message);
+        }
 
+        setUsers(data.user);
       })
       .catch((err) => {
         console.log("Sign out error:", err.message);
@@ -44,15 +43,19 @@ const NavBar = () => {
         <NavLink to={"/allProducts"}>All Products</NavLink>
       </li>
       <li>
-        {isAdmin ? (
-          <NavLink to={"/dashboard/AdminHome"}>Admin Profile</NavLink>
-        ) : (
-          <NavLink to={"/dashboard/UserHome"}>Profile</NavLink>
-        )}
+        <NavLink to={"/contact"}>Contact Us</NavLink>
       </li>
-      <li>
-        <NavLink to={"/"}>Contact Us</NavLink>
-      </li>
+      {!user ? (
+        <li>
+          {isAdmin ? (
+            <NavLink to={"/dashboard/AdminHome"}>Admin Profile</NavLink>
+          ) : (
+            <NavLink to={"/dashboard/UserHome"}>Profile</NavLink>
+          )}
+        </li>
+      ) : (
+        ""
+      )}
     </>
   );
   return (

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { AuthContext } from "../Components/Authontation/Authorization";
-import LoadingPage from "../Components/LoadingPage";
 import { Navigate, useLocation } from "react-router-dom";
+import LoadingPage from "../Pages/Home/LoadingPage";
 
 const PrivateRoute = ({ children }) => {
   const { loader, users } = useContext(AuthContext);

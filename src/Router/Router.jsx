@@ -20,6 +20,8 @@ import UserBooking from "../Pages/Dashboard/UserBooking";
 import UserPaymentHistory from "./../Pages/Dashboard/UserPaymentHistory";
 import UserHome from "../Pages/Dashboard/User/UserHome";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
+import PrivateRoute from './PrivateRoute';
+import ContactUs from "../Components/ContactUs";
 
 const Router = createBrowserRouter([
   {
@@ -38,6 +40,10 @@ const Router = createBrowserRouter([
       {
         path: "/register",
         element: <Register></Register>,
+      },
+            {
+        path: "/contact",
+        element:<ContactUs></ContactUs>
       },
 
       {
@@ -104,11 +110,11 @@ const Router = createBrowserRouter([
       },
       {
         path: "/dashboard/UserHome",
-        element: <UserHome></UserHome>,
+        element: <PrivateRoute><UserHome></UserHome></PrivateRoute>,
       },
       {
         path: "/dashboard/AdminHome",
-        element: <AdminHome></AdminHome>,
+        element: <PrivateRoute><AdminHome></AdminHome></PrivateRoute>,
       },
     ],
   },
