@@ -111,7 +111,7 @@ const Favorite = () => {
                   </button>
                 </div>
                 <div className="flex justify-center">
-                  <button onClick={() => handleDelete(v._id)}>
+                  <button onClick={() => handleDelete(v._id)} className="bg-white p-2 border border-gray-200 rounded-full">
                     <RiDeleteBin6Line className="text-2xl text-red-500 hover:text-red-600 transition" />
                   </button>
                 </div>

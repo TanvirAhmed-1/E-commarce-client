@@ -25,9 +25,9 @@ const handleNavigate=()=>{
           />
           <IoIosSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-xl" />
         </div>
-        <div className="flex flex-wrap justify-center md:justify-evenly gap-2 text-[10px] md:text-xs text-white text-center md:w-[50%]">
+        <div className="md:flex flex-wrap  hidden justify-center md:justify-evenly gap-2 text-[10px] md:text-xs text-white text-center md:w-[50%]">
           <p>Free shipping over $199</p>
-          <button onClick={()=>setSort(!sort)} className="btn">{sort? "sorted":"Sort by price"}</button>
+          <button onClick={()=>setSort(!sort)} className="btn md:hidden sm:hidden">{sort? "sorted":"Sort by price"}</button>
           <p>100% secure payment</p>
         </div>
       </div>

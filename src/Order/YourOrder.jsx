@@ -13,7 +13,7 @@ const YourOrder = () => {
   const [orderPrice, setOrderPrice] = useState({});
   const axiosSecure = useAxiosSecure();
   const [paymentSelect, setPaymentSelect] = useState(null);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   const handleSelector = (name) => {
     setPaymentSelect((prev) => (prev === name ? null : name));
@@ -60,26 +60,26 @@ const YourOrder = () => {
     totalPrice: totalPrice,
     discount: discount,
     finalPrice: finalPrice,
-    order:"Pending",
-    method:paymentSelect,
+    order: "Pending",
+    method: paymentSelect,
     orderTime: new Date().toISOString(),
   };
 
-  const handleCheckout =async () => {
+  const handleCheckout = async () => {
     console.log(orderData);
     // Post data to server
-    const res= await axiosSecure.post("/order",orderData)
-    refetch()
-    if(res.data.result.insertedId){
-        Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Your order is successfully Confirmed",
-            showConfirmButton: false,
-            timer: 1500
-          });
+    const res = await axiosSecure.post("/order", orderData);
+    refetch();
+    if (res.data.result.insertedId) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your order is successfully Confirmed",
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-          // navigate("/")
+      // navigate("/")
     }
   };
 
@@ -119,7 +119,6 @@ const YourOrder = () => {
     );
   }
 
-
   return (
     <div className="bg-white px-4 py-6">
       <h1 className="text-2xl font-bold mb-4 text-center text-black">
@@ -131,38 +130,42 @@ const YourOrder = () => {
         <div className="w-full md:w-[70%] grid gap-4">
           {data?.map((v) => (
             <div key={v?._id} className="border rounded-lg p-2">
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-6 items-center gap-4">
-                <div className="border p-2 w-full md:w-28 mx-auto">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 justify-start items-center gap-4 p-4">
+                <div className="border p-4  lg:w-28 md:w-32 w-44 mx-auto">
                   <img
                     src={v?.image1}
                     alt={v?.name}
                     className="w-full h-auto object-cover"
                   />
                 </div>
-                <h1 className="text-sm md:col-span-2 text-start ml-3 text-black">{v?.title}</h1>
+                <h1 className="text-sm md:col-span-2 text-start lg:ml-3 text-black">
+                  {v?.title}
+                </h1>
                 <p className="text-sm text-black">Price: ${v?.price}</p>
-                <div className="text-black grid grid-cols-3 items-center gap-0 border border-black rounded overflow-hidden w-28">
+                <div className="flex md:gap-9 justify-evenly items-center">
+                  <div className="text-black grid grid-cols-3 items-center gap-0 border border-black rounded overflow-hidden w-28">
+                    <button
+                      onClick={() => increment(v._id)}
+                      className="px-3 py-1 border-r border-black text-lg font-semibold"
+                    >
+                      +
+                    </button>
+                    <span className="px-3 py-1 text-center text-lg font-medium">
+                      {getCount(v._id)}
+                    </span>
+                    <button
+                      onClick={() => decrement(v._id)}
+                      className="px-2 py-1 border-l border-black text-xl font-semibold"
+                    >
+                      -
+                    </button>
+                  </div>
                   <button
-                    onClick={() => increment(v._id)}
-                    className="px-3 py-1 border-r border-black text-lg font-semibold"
+                    onClick={() => handleDelete(v._id)}
+                    className="flex justify-center border border-gray-200 rounded-full p-2 bg-white "
                   >
-                    +
+                    <RiDeleteBin6Line className="text-2xl text-red-500 cursor-pointer" />
                   </button>
-                  <span className="px-3 py-1 text-center text-lg font-medium">
-                    {getCount(v._id)}
-                  </span>
-                  <button
-                    onClick={() => decrement(v._id)}
-                    className="px-2 py-1 border-l border-black text-xl font-semibold"
-                  >
-                    -
-                  </button>
-                </div>
-                <div
-                  onClick={() => handleDelete(v._id)}
-                  className="flex justify-center"
-                >
-                  <RiDeleteBin6Line className="text-xl text-red-500 cursor-pointer" />
                 </div>
               </div>
             </div>
@@ -174,7 +177,9 @@ const YourOrder = () => {
           <h1 className="text-xl font-bold text-black">CART TOTAL</h1>
 
           <div className="flex justify-between items-center">
-            <h2 className="text-sm font-medium text-black">TOTAL ITEM TYPES:</h2>
+            <h2 className="text-sm font-medium text-black">
+              TOTAL ITEM TYPES:
+            </h2>
             <p className="text-black">{data?.length}</p>
           </div>
           <div className="flex justify-between items-center">
@@ -200,7 +205,9 @@ const YourOrder = () => {
 
           {totalQuantity >= 3 && (
             <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-black">Discounted price</h2>
+              <h2 className="text-lg font-semibold text-black">
+                Discounted price
+              </h2>
               <p className="text-xl font-bold text-black">
                 ${finalPrice.toFixed(2)}
               </p>
@@ -210,7 +217,8 @@ const YourOrder = () => {
           {/* Discount Message */}
           {totalQuantity >= 3 && (
             <p className="text-sm text-green-600 text-start bg-green-50 p-2 rounded shadow">
-              You get a 10% Discount <span className="text-black ml-1">${discount.toFixed(2)}</span>
+              You get a 10% Discount{" "}
+              <span className="text-black ml-1">${discount.toFixed(2)}</span>
             </p>
           )}
 
@@ -241,7 +249,7 @@ const YourOrder = () => {
                 paymentSelect === "Nagad" ? "border-green-500" : ""
               }`}
             >
-              <img src={nagad} alt="Nagad" className="p-6 w-32" />
+              <img src={nagad} alt="Nagad" className="p-6 lg:w-32 w-24" />
               <span
                 className={`text-sm ${
                   paymentSelect === "Nagad" ? "text-green-500" : "text-black"
