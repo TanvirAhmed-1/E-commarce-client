@@ -9,6 +9,7 @@ import "react-tabs/style/react-tabs.css";
 import ProductMap from "../Hook/ProductMap";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
+import CategoryProductsMap from "../Hook/CategoryProductsMap";
 
 const AllProducts = () => {
   const [range, setRange] = useState([0, 5000]);
@@ -17,6 +18,8 @@ const AllProducts = () => {
   const [ascending, setAscending] = useState(false);
   const [search, setSearch] = useState("");
   const [tabIndex, setTabIndex] = useState(0);
+
+  console.log("Current Tab Index:", tabIndex);
 
   const [products, loading] = useProduct(sort, search, range, ascending);
 
@@ -169,7 +172,7 @@ const AllProducts = () => {
 
             <div className="flex-1 p-2">
               <TabPanel>
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
+                <div className="grid lg:grid-cols-3 md:grid-cols-1 grid-cols-1 gap-6">
                   {products.map((v) => (
                     <ProductCard key={v._id} data={v} />
                   ))}
@@ -181,7 +184,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={subPhone} />
+                  <CategoryProductsMap category={subPhone} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -190,7 +193,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={subEarphone} />
+                  <CategoryProductsMap category={subEarphone} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -199,7 +202,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={subBag} />
+                  <CategoryProductsMap category={subBag} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -208,7 +211,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={subSunscreenCream} />
+                  <CategoryProductsMap category={subSunscreenCream} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -217,7 +220,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={subFaceWash} />
+                  <CategoryProductsMap category={subFaceWash} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -226,7 +229,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={subWatch} />
+                  <CategoryProductsMap category={subWatch} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -235,7 +238,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={suNightCream} />
+                  <CategoryProductsMap category={suNightCream} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -244,7 +247,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={subTrimmer} />
+                  <CategoryProductsMap category={subTrimmer} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -253,7 +256,7 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={subFan} />
+                  <CategoryProductsMap category={subFan} />
                 )}
               </TabPanel>
               <TabPanel>
@@ -262,7 +265,9 @@ const AllProducts = () => {
                     Product not available
                   </div>
                 ) : (
-                  <ProductMap category={FreeShipping} />
+                  <>
+                    <CategoryProductsMap category={FreeShipping} />
+                  </>
                 )}
               </TabPanel>
             </div>

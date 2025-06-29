@@ -48,6 +48,8 @@ const Dashboard = () => {
           className="drawer-overlay"
         ></label>
         <ul className="menu py-4 md:w-80 w-60 min-h-full bg-green-400 text-gray-800 text-lg font-semibold space-y-2">
+
+          <h1 className="text-2xl font-serif font-semibold text-start py-6 px-2"> Trendy Products BD</h1>
           {isAdmin ? (
             <>
               <li>
@@ -95,7 +97,7 @@ const Dashboard = () => {
             <>
               <li>
                 <NavLink to="/dashboard/UserHome">
-                  <FaHome /> Home
+                  <FaHome />User Home
                 </NavLink>
               </li>
               <li>

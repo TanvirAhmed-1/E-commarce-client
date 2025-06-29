@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoBagAddOutline } from "react-icons/io5";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,13 +7,21 @@ import useOrderTanStackQuery from "../Hook/useOrderTanStackQuery";
 import useAxiosSecure from "../Hook/useAxiosSecure";
 import bkash from "../assets/img/BKash_Logo.png";
 import nagad from "../assets/img/nagad.png";
+import { AuthContext } from "../Components/Authontation/Authorization";
 
 const YourOrder = () => {
   const [data, refetch] = useOrderTanStackQuery();
   const [orderPrice, setOrderPrice] = useState({});
-  const axiosSecure = useAxiosSecure();
   const [paymentSelect, setPaymentSelect] = useState(null);
+  const [showAddressInput, setShowAddressInput] = useState(false);
+  const [userAddress, setUserAddress] = useState({
+    mobile: "",
+    location: "",
+    street: "",
+  });
+  const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
+  const { users } = useContext(AuthContext);
 
   const handleSelector = (name) => {
     setPaymentSelect((prev) => (prev === name ? null : name));
@@ -22,26 +30,28 @@ const YourOrder = () => {
   const getCount = (id) => orderPrice[id] || 1;
 
   const increment = (id) => {
-    setOrderPrice((newData) => ({
-      ...newData,
+    setOrderPrice((prev) => ({
+      ...prev,
       [id]: getCount(id) + 1,
     }));
   };
 
   const decrement = (id) => {
-    setOrderPrice((newData) => ({
-      ...newData,
+    setOrderPrice((prev) => ({
+      ...prev,
       [id]: getCount(id) > 1 ? getCount(id) - 1 : 1,
     }));
   };
 
-  const totalPrice = data?.reduce((sum, item) => {
-    return sum + item.price * getCount(item._id);
-  }, 0);
+  const totalPrice = data?.reduce(
+    (sum, item) => sum + item.price * getCount(item._id),
+    0
+  );
 
-  const totalQuantity = data?.reduce((sum, item) => {
-    return sum + getCount(item._id);
-  }, 0);
+  const totalQuantity = data?.reduce(
+    (sum, item) => sum + getCount(item._id),
+    0
+  );
 
   const discount = totalQuantity >= 3 ? totalPrice * 0.1 : 0;
   const finalPrice = totalPrice - discount;
@@ -57,33 +67,37 @@ const YourOrder = () => {
 
   const orderData = {
     items: orderItems,
-    totalPrice: totalPrice,
-    discount: discount,
-    finalPrice: finalPrice,
+    totalPrice,
+    discount,
+    finalPrice,
     order: "Pending",
     method: paymentSelect,
     orderTime: new Date().toISOString(),
+    userEmail: users?.email,
+    userName: users?.displayName,
+    address: userAddress,
   };
 
   const handleCheckout = async () => {
-    console.log(orderData);
-    // Post data to server
+    if (!users) return navigate("/login");
+    if (!paymentSelect) return Swal.fire("Please select a payment method");
+
     const res = await axiosSecure.post("/order", orderData);
-    refetch();
     if (res.data.result.insertedId) {
+      refetch();
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "Your order is successfully Confirmed",
+        title: "Your order has been successfully confirmed!",
         showConfirmButton: false,
         timer: 1500,
       });
-
-      // navigate("/")
     }
   };
 
   const handleDelete = (id) => {
+    if (!users) return navigate("/login");
+
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -94,15 +108,10 @@ const YourOrder = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure
-          .delete(`/addToCard/delete/${id}`)
-          .then(() => {
-            Swal.fire("Deleted!", "Your file has been deleted.", "success");
-            refetch();
-          })
-          .catch(() => {
-            console.log("error");
-          });
+        axiosSecure.delete(`/addToCard/delete/${id}`).then(() => {
+          Swal.fire("Deleted!", "Your item has been deleted.", "success");
+          refetch();
+        });
       }
     });
   };
@@ -131,7 +140,7 @@ const YourOrder = () => {
           {data?.map((v) => (
             <div key={v?._id} className="border rounded-lg p-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-5 justify-start items-center gap-4 p-4">
-                <div className="border p-4  lg:w-28 md:w-32 w-44 mx-auto">
+                <div className="border p-4 lg:w-28 md:w-32 w-44 mx-auto">
                   <img
                     src={v?.image1}
                     alt={v?.name}
@@ -172,61 +181,123 @@ const YourOrder = () => {
           ))}
         </div>
 
-        {/* payment Panel */}
+        {/* Payment Panel */}
         <div className="w-full md:w-[30%] border rounded-lg p-4 space-y-4 bg-gray-50">
           <h1 className="text-xl font-bold text-black">CART TOTAL</h1>
 
           <div className="flex justify-between items-center">
-            <h2 className="text-sm font-medium text-black">
-              TOTAL ITEM TYPES:
-            </h2>
+            <h2 className="text-sm font-medium text-black">TOTAL ITEM TYPES:</h2>
             <p className="text-black">{data?.length}</p>
           </div>
+
           <div className="flex justify-between items-center">
             <h2 className="text-sm font-medium text-black">TOTAL QUANTITY:</h2>
             <p className="text-black">{totalQuantity}</p>
           </div>
 
           <hr />
+
+          {/* Delivery */}
           <div className="space-y-3">
             <h2 className="text-sm font-medium text-black">Delivery:</h2>
-            <p className="text-xs text-gray-500">Standard Delivery</p>
-            <button className="text-sky-400 text-sm underline">
-              Change the location
+            <p className="text-xs text-gray-500">
+              {userAddress.mobile || userAddress.location || userAddress.street
+                ? `${userAddress.mobile}, ${userAddress.location}, ${userAddress.street}`
+                : "Standard Delivery"}
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowAddressInput(!showAddressInput)}
+              className="text-sky-400 text-sm underline"
+            >
+              {showAddressInput ? "Hide location form" : "Change your location"}
             </button>
+
+            {showAddressInput && (
+              <div className="space-y-2">
+                {/* Mobile */}
+                <div>
+                  <label className="block text-sm font-medium text-black mb-1">
+                    Mobile Number
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your mobile number"
+                    value={userAddress.mobile}
+                    onChange={(e) =>
+                      setUserAddress({ ...userAddress, mobile: e.target.value })
+                    }
+                    className="w-full p-2 border rounded text-black"
+                  />
+                </div>
+
+                {/* Division/District */}
+                <div>
+                  <label className="block text-sm font-medium text-black mb-1">
+                    Division & District
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Dhaka, Gazipur"
+                    value={userAddress.location}
+                    onChange={(e) =>
+                      setUserAddress({ ...userAddress, location: e.target.value })
+                    }
+                    className="w-full p-2 border rounded text-black"
+                  />
+                </div>
+
+                {/* Street */}
+                <div>
+                  <label className="block text-sm font-medium text-black mb-1">
+                    Street/Village/Area
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter street or area"
+                    value={userAddress.street}
+                    onChange={(e) =>
+                      setUserAddress({ ...userAddress, street: e.target.value })
+                    }
+                    className="w-full p-2 border rounded text-black"
+                  />
+                </div>
+              </div>
+            )}
           </div>
+
           <hr />
+
+          {/* Price Info */}
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold text-black">Total price</h2>
-            <p className="text-xl font-bold text-black">
-              ${totalPrice.toFixed(2)}
-            </p>
+            <p className="text-xl font-bold text-black">${totalPrice.toFixed(2)}</p>
           </div>
 
           {totalQuantity >= 3 && (
-            <div className="flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-black">
-                Discounted price
-              </h2>
-              <p className="text-xl font-bold text-black">
-                ${finalPrice.toFixed(2)}
+            <>
+              <div className="flex justify-between items-center">
+                <h2 className="text-lg font-semibold text-black">
+                  Discounted price
+                </h2>
+                <p className="text-xl font-bold text-black">
+                  ${finalPrice.toFixed(2)}
+                </p>
+              </div>
+              <p className="text-sm text-green-600 text-start bg-green-50 p-2 rounded shadow">
+                You get a 10% Discount{" "}
+                <span className="text-black ml-1">${discount.toFixed(2)}</span>
               </p>
-            </div>
+            </>
           )}
 
-          {/* Discount Message */}
-          {totalQuantity >= 3 && (
-            <p className="text-sm text-green-600 text-start bg-green-50 p-2 rounded shadow">
-              You get a 10% Discount{" "}
-              <span className="text-black ml-1">${discount.toFixed(2)}</span>
-            </p>
-          )}
-
-          {/* Payment Method Selection */}
+          {/* Payment Method */}
           <div className="grid gap-4">
             <h1 className="text-black text-xl font-semibold">
               Select Your Payment Method
             </h1>
+
+            {/* Bkash */}
             <button
               onClick={() => handleSelector("Bkash")}
               className={`border h-14 border-black bg-white flex justify-between items-center px-4 ${
@@ -243,6 +314,7 @@ const YourOrder = () => {
               </span>
             </button>
 
+            {/* Nagad */}
             <button
               onClick={() => handleSelector("Nagad")}
               className={`border h-14 border-black bg-white flex justify-between items-center px-4 ${
@@ -258,9 +330,30 @@ const YourOrder = () => {
                 {paymentSelect === "Nagad" ? "Selected" : "Select"}
               </span>
             </button>
+
+            {/* Cash on Delivery */}
+            <button
+              onClick={() => handleSelector("Cash on Delivery")}
+              className={`border h-14 border-black bg-white flex justify-between items-center px-4 ${
+                paymentSelect === "Cash on Delivery" ? "border-green-500" : ""
+              }`}
+            >
+              <span className="text-sm font-medium text-black">
+                Cash on Delivery
+              </span>
+              <span
+                className={`text-sm ${
+                  paymentSelect === "Cash on Delivery"
+                    ? "text-green-500"
+                    : "text-black"
+                }`}
+              >
+                {paymentSelect === "Cash on Delivery" ? "Selected" : "Select"}
+              </span>
+            </button>
           </div>
 
-          {/* Proceed Button */}
+          {/* Checkout Button */}
           <div>
             <Link
               onClick={handleCheckout}

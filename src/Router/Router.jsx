@@ -48,9 +48,13 @@ const Router = createBrowserRouter([
         path: "/allProducts",
         element: <AllProducts></AllProducts>,
       },
-            {
+      {
         path: "/yourOrder",
         element: <YourOrder></YourOrder>,
+      },
+      {
+        path: "/favorite",
+        element: <Favorite></Favorite>,
       },
     ],
   },
@@ -62,7 +66,6 @@ const Router = createBrowserRouter([
         path: "/dashboard/yourOrder",
         element: <YourOrder></YourOrder>,
       },
-      {},
       {
         path: "/dashboard/favorite",
         element: <Favorite></Favorite>,
@@ -103,7 +106,7 @@ const Router = createBrowserRouter([
         path: "/dashboard/UserHome",
         element: <UserHome></UserHome>,
       },
-            {
+      {
         path: "/dashboard/AdminHome",
         element: <AdminHome></AdminHome>,
       },

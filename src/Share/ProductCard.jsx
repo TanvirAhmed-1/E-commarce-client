@@ -25,8 +25,12 @@ const ProductCard = ({ data }) => {
       return
     }
     setPAddLoading(true)
+    const sendData={
+      data,
+      email:users?.email
+    }
     try {
-      const res = await axiosPublic.post("/favorite", data);
+      const res = await axiosPublic.post("/favorite",sendData);
       refetch();
       setPAddLoading(false)
       if (res.data.acknowledged) {
@@ -60,7 +64,7 @@ const ProductCard = ({ data }) => {
     }
     setPAddLoading(true)
     const { _id, ...rest } = data;
-    const sendData = { orderId: _id, ...rest };
+     const sendData = {...rest, orderId: _id, email:users?.email };
 
     try {
       const res = await axiosPublic.post("/addToCard", sendData);
@@ -85,8 +89,8 @@ const ProductCard = ({ data }) => {
   return (
     <div className="w-full sm:w-75 lg:w-80 md:w-96 mx-auto">
       <div className="bg-white rounded-2xl shadow-md border-2 border-solid border-gray-200  overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <div className="relative h-60 bg-gray-100 ">
-          <img src={image1} alt={title} className="object-cover w-full h-full" />
+        <div className="relative p-2  h-60 bg-gray-100 ">
+          <img src={image1} alt={title} className="object-cover rounded-2xl w-full h-full" />
           <button
             onClick={handleFavorite}
             className="absolute top-2 right-2 hover:scale-105 duration-1000 group-hover:duration-100 border border-gray-200 bg-white p-2 rounded-full shadow-md hover:bg-red-100 transition"
