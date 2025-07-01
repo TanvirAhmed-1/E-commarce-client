@@ -1,7 +1,8 @@
-import usePaymentProducts from "../../Hook/usepaymentProducts";
+
+import useUserProducts from "../../Hook/useUserProducts";
 
 const UserPaymentHistory = () => {
-  const [payment, refetch] = usePaymentProducts();
+  const [payment, refetch] = useUserProducts();
 
   const formatDateTime = (timestamp) => {
     if (!timestamp) return "N/A";

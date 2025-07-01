@@ -52,13 +52,14 @@ const Favorite = () => {
       navigate("/login");
       return;
     }
+    console.log(" data",product)
     const { _id, ...dataWithoutId } = product;
     const sendData = {
       orderId: _id,
       ...dataWithoutId,
       email: users?.email,
     };
-
+  console.log("send data",sendData)
     try {
       const res = await axiosPublic.post("/addToCard", sendData);
       refetchOrder();
@@ -132,7 +133,7 @@ const Favorite = () => {
                 <div className="flex  md:col-span-2 md:p-6 justify-between items-center">
                   <div className="flex justify-center ">
                     <button
-                      onClick={() => HandleAddToCard(v)}
+                      onClick={() => HandleAddToCard(v.data)}
                       className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg transition duration-200"
                     >
                       Add to Cart

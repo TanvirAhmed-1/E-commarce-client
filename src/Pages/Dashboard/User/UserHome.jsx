@@ -74,6 +74,7 @@ const UserHome = () => {
               <FaShoppingCart /> Delivery:{" "}
               <span className="font-bold">{Delivery.length || 0}</span>
             </li>
+            
             <li className="text-orange-500 flex items-center gap-2">
               <FaCalendarAlt /> Bookings:{" "}
               <span className="font-bold">{Accept?.length || 0}</span>

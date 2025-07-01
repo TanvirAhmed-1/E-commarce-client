@@ -96,7 +96,7 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/yourOrder">
+                <NavLink to="/dashboard/userOrder">
                   <FaCartShopping /> My Orders
                 </NavLink>
               </li>
@@ -107,7 +107,7 @@ const Dashboard = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/UserBooking">
-                  <MdBookmarkAdd /> My Booking
+                  <MdBookmarkAdd />Products Status
                 </NavLink>
               </li>
               <li>

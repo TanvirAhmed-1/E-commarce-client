@@ -88,7 +88,7 @@ const AllUser = () => {
                   {user.role === "Admin" ? (
                     <button
                       onClick={() => handleDeleteAdmin(user)}
-                      className=" btn btn-sm  text-white bg-yellow-500 border-none hover:bg-yellow-800 font-medium"
+                      className=" btn btn-sm  text-white bg-red-400 border-none hover:bg-red-600 font-medium"
                     >
                       Delete Admin
                     </button>

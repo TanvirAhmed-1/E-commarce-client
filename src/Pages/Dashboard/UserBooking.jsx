@@ -1,7 +1,8 @@
-import usePaymentProducts from "../../Hook/usepaymentProducts";
+
+import useUserProducts from "../../Hook/useUserProducts";
 
 const UserBooking = () => {
-  const [payment, refetch] = usePaymentProducts();
+  const [payment, refetch] = useUserProducts();
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 sm:px-8 py-6">

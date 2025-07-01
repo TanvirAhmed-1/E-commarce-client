@@ -20,9 +20,10 @@ import UserBooking from "../Pages/Dashboard/UserBooking";
 import UserPaymentHistory from "./../Pages/Dashboard/UserPaymentHistory";
 import UserHome from "../Pages/Dashboard/User/UserHome";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
-import PrivateRoute from './PrivateRoute';
+import PrivateRoute from "./PrivateRoute";
 import ContactUs from "../Components/ContactUs";
 import AdminPaymentHistory from "../Pages/Dashboard/Admin/AdminPaymentHistory";
+import UserOrder from "../Pages/Dashboard/User/UserOrder";
 
 const Router = createBrowserRouter([
   {
@@ -42,9 +43,9 @@ const Router = createBrowserRouter([
         path: "/register",
         element: <Register></Register>,
       },
-            {
+      {
         path: "/contact",
-        element:<ContactUs></ContactUs>
+        element: <ContactUs></ContactUs>,
       },
 
       {
@@ -63,6 +64,10 @@ const Router = createBrowserRouter([
         path: "/favorite",
         element: <Favorite></Favorite>,
       },
+      // {
+      //   path: "/userOrder",
+      //   element: <UserOrder></UserOrder>,
+      // },
     ],
   },
   {
@@ -109,17 +114,29 @@ const Router = createBrowserRouter([
         path: "/dashboard/UserPaymentMethod",
         element: <UserPaymentHistory></UserPaymentHistory>,
       },
+           {
+        path: "/dashboard/userOrder",
+        element: <UserOrder></UserOrder>,
+      },
       {
         path: "/dashboard/UserHome",
-        element: <PrivateRoute><UserHome></UserHome></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <UserHome></UserHome>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/AdminHome",
-        element: <PrivateRoute><AdminHome></AdminHome></PrivateRoute>,
+        element: (
+          <PrivateRoute>
+            <AdminHome></AdminHome>
+          </PrivateRoute>
+        ),
       },
-            {
+      {
         path: "/dashboard/paymentHistory",
-        element:<AdminPaymentHistory></AdminPaymentHistory>,
+        element: <AdminPaymentHistory></AdminPaymentHistory>,
       },
     ],
   },
