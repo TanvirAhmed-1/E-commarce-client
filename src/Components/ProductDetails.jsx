@@ -42,6 +42,7 @@ const ProductDetails = () => {
     const sendData = {
       orderId: _id,
       ...data,
+      email:users?.email
     };
 
     try {
@@ -134,7 +135,7 @@ const ProductDetails = () => {
                 {shipping === "Free" ? (
                   <span className="text-green-500 font-semibold">Free</span>
                 ) : (
-                  `$ ${shipping}`
+                  `$ {shipping} TK`
                 )}
               </div>
               <p
@@ -144,7 +145,7 @@ const ProductDetails = () => {
                     : "text-gray-500"
                 }  font-medium text-xs my-2 flex items-center gap-3`}
               >
-                <LiaOpencart className="text-3xl" /> {availability}
+                <LiaOpencart className="text-3xl" /> {availability === "Available"?"Available": "Not Available"}
               </p>
               <div className="text-gray-800 font-semibold flex justify-start items-center gap-1">
                 Rating:{" "}

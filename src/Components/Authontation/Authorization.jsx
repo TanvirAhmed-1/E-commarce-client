@@ -9,6 +9,7 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
   updateProfile,
+  signInWithEmailAndPassword,
 } from "firebase/auth";
 
 export const AuthContext = createContext(null);
@@ -31,6 +32,10 @@ const Authorization = ({ children }) => {
     setLoader(true);
     return signInWithPopup(auth, gitHubProvider);
   };
+   // user sing in / login
+const userSignIn=(email, password)=>{
+ return signInWithEmailAndPassword(auth, email, password)
+}
 
   // Register new user
   const registerUser = (email, password) => {
@@ -65,6 +70,7 @@ const UpdateUserProfile=(updateData)=>{
     gitHubSignIn,
     loader,
     UpdateUserProfile,
+    userSignIn
   };
 
   return (

@@ -1,21 +1,34 @@
-import Lottie from 'lottie-react';
-import login from "../assets/Login.json"
-import GoogleLogin from '../Share/GoogleLogin';
+import Lottie from "lottie-react";
+import login from "../assets/Login.json";
+import GoogleLogin from "../Share/GoogleLogin";
+import { useContext } from "react";
+import { AuthContext } from "./Authontation/Authorization";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const handleForm = (e) => {
-        e.preventDefault();
-        const form = e.target;
-    
-        const email = form.email.value;
-    
-        const password = form.password.value;
-    
-        const user = { email, password };
-         console.log(user)
-      };
-    return (
-<div className="hero min-h-screen bg-white dark:bg-black flex justify-center items-center">
+  const { userSignIn } = useContext(AuthContext);
+  const navigate=useNavigate()
+  const handleForm = (e) => {
+    e.preventDefault();
+    const form = e.target;
+
+    const email = form.email.value;
+
+    const password = form.password.value;
+
+    const user = { email, password };
+    console.log(user);
+    userSignIn(email, password)
+      .then((res) => {
+        console.log(res.user);
+        navigate("/")
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+  return (
+    <div className="hero min-h-screen bg-white dark:bg-black flex justify-center items-center">
       <div className="w-[80%] flex flex-col lg:flex-row-reverse items-center gap-6">
         <div className="lg:w-[55%] flex-1">
           <Lottie animationData={login} loop={true} />
@@ -57,12 +70,12 @@ const Login = () => {
             </div>
           </form>
           <section>
-          <GoogleLogin></GoogleLogin>
-        </section>
+            <GoogleLogin></GoogleLogin>
+          </section>
         </div>
       </div>
     </div>
-    );
+  );
 };
 
 export default Login;

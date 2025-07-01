@@ -7,7 +7,7 @@ const UserBooking = () => {
     <div className="min-h-screen bg-gray-100 px-4 sm:px-8 py-6">
       <div className="max-w-full overflow-x-auto bg-white p-6 rounded-xl shadow-lg">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          All User Orders Status
+          Your Orders Status
         </h1>
 
         <div className="overflow-x-auto">
@@ -24,7 +24,10 @@ const UserBooking = () => {
             </thead>
             <tbody>
               {payment?.map((order, index) => (
-                <tr key={order._id} className="border-t text-black border-b text-sm sm:text-base">
+                <tr
+                  key={order._id}
+                  className="border-t text-black border-b text-sm sm:text-base"
+                >
                   <td className="py-2 px-4">{index + 1}</td>
                   <td className="py-2 px-4">
                     <img
@@ -42,11 +45,21 @@ const UserBooking = () => {
                   <td className="py-2 px-4">${order.finalPrice}</td>
                   <td className="py-2 px-4">
                     {order.order === "Delivery" ? (
-                      <span className="text-green-600 font-semibold">Delivered</span>
+                      <span className="text-green-600 font-semibold">
+                        Delivered
+                      </span>
                     ) : order.order === "Accept" ? (
-                      <span className="text-blue-500 font-semibold">Accepted</span>
+                      <span className="text-blue-500 font-semibold">
+                        Accepted
+                      </span>
+                    ) : order.order === "Cancel" ? (
+                      <span className="text-yellow-600 font-semibold">
+                        Cancel
+                      </span>
                     ) : (
-                      <span className="text-yellow-600 font-semibold">Pending</span>
+                      <span className="text-yellow-600 font-semibold">
+                        Pending
+                      </span>
                     )}
                   </td>
                 </tr>

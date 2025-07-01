@@ -8,12 +8,13 @@ import useAxiosSecure from "../Hook/useAxiosSecure";
 import bkash from "../assets/img/BKash_Logo.png";
 import nagad from "../assets/img/nagad.png";
 import { AuthContext } from "../Components/Authontation/Authorization";
+import Loader from "../Pages/Home/Loader";
 
 const YourOrder = () => {
   const [data, refetch] = useOrderTanStackQuery();
   const [orderPrice, setOrderPrice] = useState({});
   const [paymentSelect, setPaymentSelect] = useState(null);
-  const [showAddressInput, setShowAddressInput] = useState(false);
+  const [showAddressInput, setShowAddressInput] = useState(true);
   const [userAddress, setUserAddress] = useState({
     mobile: "",
     location: "",
@@ -22,6 +23,8 @@ const YourOrder = () => {
   const axiosSecure = useAxiosSecure();
   const navigate = useNavigate();
   const { users } = useContext(AuthContext);
+
+  const [Loading, setLoading] = useState(false);
 
   const handleSelector = (name) => {
     setPaymentSelect((prev) => (prev === name ? null : name));
@@ -59,7 +62,7 @@ const YourOrder = () => {
   const orderItems = data?.map((item) => ({
     productId: item._id,
     name: item.title,
-    image: item.image,
+    image: item.image1,
     price: item.price,
     quantity: getCount(item._id),
     total: item.price * getCount(item._id),
@@ -79,12 +82,15 @@ const YourOrder = () => {
   };
 
   const handleCheckout = async () => {
+    setLoading(true);
+
     if (!users) return navigate("/login");
     if (!paymentSelect) return Swal.fire("Please select a payment method");
 
     const res = await axiosSecure.post("/order", orderData);
     if (res.data.result.insertedId) {
       refetch();
+      setLoading(false);
       Swal.fire({
         position: "top-end",
         icon: "success",
@@ -97,6 +103,10 @@ const YourOrder = () => {
 
   const handleDelete = (id) => {
     if (!users) return navigate("/login");
+
+    setLoading(true);
+
+    
 
     Swal.fire({
       title: "Are you sure?",
@@ -111,6 +121,7 @@ const YourOrder = () => {
         axiosSecure.delete(`/addToCard/delete/${id}`).then(() => {
           Swal.fire("Deleted!", "Your item has been deleted.", "success");
           refetch();
+          setLoading(false);
         });
       }
     });
@@ -186,7 +197,9 @@ const YourOrder = () => {
           <h1 className="text-xl font-bold text-black">CART TOTAL</h1>
 
           <div className="flex justify-between items-center">
-            <h2 className="text-sm font-medium text-black">TOTAL ITEM TYPES:</h2>
+            <h2 className="text-sm font-medium text-black">
+              TOTAL ITEM TYPES:
+            </h2>
             <p className="text-black">{data?.length}</p>
           </div>
 
@@ -210,7 +223,9 @@ const YourOrder = () => {
               onClick={() => setShowAddressInput(!showAddressInput)}
               className="text-sky-400 text-sm underline"
             >
-              {showAddressInput ? "Hide location form" : "Change your location"}
+              {showAddressInput
+                ? "Hide your Delivery location"
+                : "Change your location"}
             </button>
 
             {showAddressInput && (
@@ -224,10 +239,11 @@ const YourOrder = () => {
                     type="text"
                     placeholder="Enter your mobile number"
                     value={userAddress.mobile}
+                    required
                     onChange={(e) =>
                       setUserAddress({ ...userAddress, mobile: e.target.value })
                     }
-                    className="w-full p-2 border rounded text-black"
+                    className="w-full p-2 border rounded text-black bg-white"
                   />
                 </div>
 
@@ -240,10 +256,14 @@ const YourOrder = () => {
                     type="text"
                     placeholder="e.g. Dhaka, Gazipur"
                     value={userAddress.location}
+                    required
                     onChange={(e) =>
-                      setUserAddress({ ...userAddress, location: e.target.value })
+                      setUserAddress({
+                        ...userAddress,
+                        location: e.target.value,
+                      })
                     }
-                    className="w-full p-2 border rounded text-black"
+                    className="w-full p-2 border rounded text-black bg-white"
                   />
                 </div>
 
@@ -256,10 +276,11 @@ const YourOrder = () => {
                     type="text"
                     placeholder="Enter street or area"
                     value={userAddress.street}
+                    required
                     onChange={(e) =>
                       setUserAddress({ ...userAddress, street: e.target.value })
                     }
-                    className="w-full p-2 border rounded text-black"
+                    className="w-full p-2 border rounded text-black bg-white"
                   />
                 </div>
               </div>
@@ -271,7 +292,9 @@ const YourOrder = () => {
           {/* Price Info */}
           <div className="flex justify-between items-center">
             <h2 className="text-lg font-semibold text-black">Total price</h2>
-            <p className="text-xl font-bold text-black">${totalPrice.toFixed(2)}</p>
+            <p className="text-xl font-bold text-black">
+              ${totalPrice.toFixed(2)}
+            </p>
           </div>
 
           {totalQuantity >= 3 && (
@@ -368,6 +391,7 @@ const YourOrder = () => {
           </div>
         </div>
       </div>
+      {Loading && <Loader />}
     </div>
   );
 };

@@ -63,11 +63,6 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/dashboard/yourOrder">
-                  <FaCartShopping /> Orders
-                </NavLink>
-              </li>
-              <li>
                 <NavLink to="/dashboard/productUpdate">
                   <AiFillFolderAdd /> Add Products
                 </NavLink>
@@ -88,7 +83,7 @@ const Dashboard = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="#">
+                <NavLink to="/dashboard/paymentHistory">
                   <MdPayment /> Payment History
                 </NavLink>
               </li>

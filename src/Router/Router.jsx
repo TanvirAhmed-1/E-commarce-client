@@ -22,6 +22,7 @@ import UserHome from "../Pages/Dashboard/User/UserHome";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 import PrivateRoute from './PrivateRoute';
 import ContactUs from "../Components/ContactUs";
+import AdminPaymentHistory from "../Pages/Dashboard/Admin/AdminPaymentHistory";
 
 const Router = createBrowserRouter([
   {
@@ -115,6 +116,10 @@ const Router = createBrowserRouter([
       {
         path: "/dashboard/AdminHome",
         element: <PrivateRoute><AdminHome></AdminHome></PrivateRoute>,
+      },
+            {
+        path: "/dashboard/paymentHistory",
+        element:<AdminPaymentHistory></AdminPaymentHistory>,
       },
     ],
   },

@@ -7,7 +7,7 @@ import useAxiosSecure from "../Hook/useAxiosSecure";
 import { IoBagAddOutline } from "react-icons/io5";
 import { AuthContext } from "../Components/Authontation/Authorization";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Favorite = () => {
   const [data, isLoading, refetch] = useTanStackQuery();
@@ -16,6 +16,8 @@ const Favorite = () => {
   const axiosSecure = useAxiosSecure();
   const { users } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  console.log(data);
 
   const handleDelete = (id) => {
     if (!users) {
@@ -54,6 +56,7 @@ const Favorite = () => {
     const sendData = {
       orderId: _id,
       ...dataWithoutId,
+      email: users?.email,
     };
 
     try {
@@ -69,7 +72,7 @@ const Favorite = () => {
     }
   };
 
-  if (data?.length === 0) {
+  if (data.length === 0) {
     return (
       <div className="flex bg-white flex-col justify-center items-center gap-4 p-6 md:min-h-screen h-full">
         <IoBagAddOutline className="text-[140px] text-red-400" />
@@ -103,24 +106,26 @@ const Favorite = () => {
               >
                 <div className="md:col-span-1 flex justify-center">
                   <img
-                    src={v.image}
-                    alt={v.title}
+                    src={v.data.image1}
+                    alt={v.data.title}
                     className="w-32 h-32 object-cover rounded-md border"
                   />
                 </div>
                 <div className="md:col-span-2">
                   <h2 className="text-lg font-semibold text-gray-800">
-                    {v.title}
+                    {v.data.title}
                   </h2>
-                  <p className="text-gray-600 mt-1">Price: {v.price} TK</p>
+                  <p className="text-gray-600 mt-1">Price: {v.data.price} TK</p>
                   <p className="text-gray-600">
                     Shipping:{" "}
                     <span
                       className={
-                        v.shipping == "free" ? "text-green-600" : "text-red-500"
+                        v.data.shipping === "Free"
+                          ? "text-green-600"
+                          : "text-red-500"
                       }
                     >
-                      {v.shipping == "free" ? "Free" : "40 TK"}
+                      {v.data.shipping === "Free" ? "Free" : "40 TK"}
                     </span>
                   </p>
                 </div>
@@ -128,11 +133,18 @@ const Favorite = () => {
                   <div className="flex justify-center ">
                     <button
                       onClick={() => HandleAddToCard(v)}
-                      className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200"
+                      className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg transition duration-200"
                     >
                       Add to Cart
                     </button>
                   </div>
+
+                  <div className="flex justify-center ">
+                    <Link  to={`/ProductDetails/${v.data._id}`} className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg transition duration-200">
+                      View Details
+                    </Link>
+                  </div>
+
                   <div className="flex justify-center">
                     <button
                       onClick={() => handleDelete(v._id)}

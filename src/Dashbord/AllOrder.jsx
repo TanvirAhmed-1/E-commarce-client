@@ -1,46 +1,72 @@
-import React from "react";
+import React, { useState } from "react";
 import usePaymentProducts from "../Hook/usepaymentProducts";
 import { MdDeleteForever } from "react-icons/md";
 import useAxiosSecure from "../Hook/useAxiosSecure";
+import Loader from "../Pages/Home/Loader";
 
 const AllOrder = () => {
   const [payment, refetch] = usePaymentProducts();
   const axiosSecure = useAxiosSecure();
+  const [Loading, setLoading] = useState(false);
+
+  console.log(payment);
 
   const handleDelete = async (id) => {
+    setLoading(true);
     const res = await axiosSecure.delete(`/user/admin/order/${id}`);
     console.log(res.data);
-            Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "Order is Deleted",
-          showConfirmButton: false,
-          timer: 1000,
-        });
     refetch();
+    setLoading(false);
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Order is Deleted",
+      showConfirmButton: false,
+      timer: 1000,
+    });
   };
 
   const handleAccept = async (id) => {
+    setLoading(true);
     const UpdateData = {
       order: "Accept",
     };
     const res = await axiosSecure.patch(`/user/admin/order/${id}`, UpdateData);
     console.log(res.data);
     refetch();
-            Swal.fire({
-          position: "top-center",
-          icon: "success",
-          title: "Order is Accept",
-          showConfirmButton: false,
-          timer: 1000,
-        });
+    setLoading(false);
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Order is Accept",
+      showConfirmButton: false,
+      timer: 1000,
+    });
+  };
+
+  const handleCancel = async (id) => {
+    setLoading(true);
+    const UpdateData = {
+      order: "Cancel",
+    };
+    const res = await axiosSecure.patch(`/user/admin/order/${id}`, UpdateData);
+    console.log(res.data);
+    refetch();
+    setLoading(false);
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Order is Accept",
+      showConfirmButton: false,
+      timer: 1000,
+    });
   };
 
   return (
     <div className="min-h-screen bg-gray-100 px-4 sm:px-8 py-6">
       <div className="max-w-full overflow-x-auto bg-white p-6 rounded-xl shadow-lg">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          User Orders
+          All User Orders
         </h1>
 
         <table className="table-auto w-full text-black border-collapse mb-6">
@@ -51,10 +77,13 @@ const AllOrder = () => {
               <th className="py-2 px-4 text-left">Products</th>
               <th className="py-2 px-4 text-left">Product Title</th>
               <th className="py-2 px-4 text-left">Price</th>
-              <th className="py-2 px-4 text-left">Final Price</th>
+              <th className="py-2 px-4 text-left">Payment Method</th>
+              <th className="py-2 px-4 text-left">User Mobile Address</th>
+              <th className="py-2 px-4 text-left">Delivery Address</th>
               <th className="py-2 px-4 text-left">Order Status</th>
+              <th className="py-2 px-4 text-left">Cancel Order</th>
               <th className="py-2 px-4 text-left">Accept Order</th>
-              <th className="py-2 px-4 text-left">Action</th>
+              <th className="py-2 px-4 text-left">Delete Order</th>
             </tr>
           </thead>
           <tbody>
@@ -74,22 +103,36 @@ const AllOrder = () => {
                     <div key={idx}>{item.name}</div>
                   ))}
                 </td>
-                <td className="py-2 px-4">
+                {/* <td className="py-2 px-4">
                   $
                   {order.items.reduce(
                     (acc, item) => acc + item.price * item.quantity,
                     0
                   )}
-                </td>
+                </td> */}
                 <td className="py-2 px-4">${order.finalPrice}</td>
+                <td className="py-2 px-4">${order.method}</td>
+                <td className="py-2 px-4">{order.address?.mobile}</td>
+                <td className="py-2 px-4">
+                  <div> {order.address?.location}</div>
+                  <div> {order.address?.street}</div>
+                </td>
                 <td className="py-2 px-4">{order.order}</td>
                 <td className="py-2 px-4">
+                  {" "}
                   <button
-                    className="btn bg-green-500 hover:bg-green-600 text-white px-4 py-1 rounded disabled:bg-gray-400"
-                    onClick={() => handleAccept(order._id)}
-                    disabled={order.order === "Accept"}
+                    className="btn bg-red-400 border-none rounded-xl hover:bg-green-600 text-white text-sm px-2 py-1 "
+                    onClick={() => handleCancel(order._id)}
                   >
-                    {order.order === "Accept" ? "Accepted" : "Accept"}
+                    Cancel
+                  </button>
+                </td>
+                <td className="py-2 px-4">
+                  <button
+                    className="btn bg-green-500 hover:bg-green-600 text-sm border-none rounded-xl text-white px-2 py-1 "
+                    onClick={() => handleAccept(order._id)}
+                  >
+                    Accept
                   </button>
                 </td>
                 <td className="py-2 px-4">
@@ -112,6 +155,7 @@ const AllOrder = () => {
           </tbody>
         </table>
       </div>
+      {Loading && <Loader />}
     </div>
   );
 };

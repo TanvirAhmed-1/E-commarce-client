@@ -45,7 +45,7 @@ const NavBar = () => {
       <li>
         <NavLink to={"/contact"}>Contact Us</NavLink>
       </li>
-      {!user ? (
+      {user ? (
         <li>
           {isAdmin ? (
             <NavLink to={"/dashboard/AdminHome"}>Admin Profile</NavLink>
