@@ -1,4 +1,4 @@
-import React from "react";
+
 import ProductCard from "../Share/ProductCard";
 
 const CategoryProductsMap = ({category}) => {

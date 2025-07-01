@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { BsGoogle } from "react-icons/bs";
 import { FaFacebook, FaGithub } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ const GoogleLogin = () => {
   const { gitHubSignIn, GoogleLogin, setUsers, loader } =
     useContext(AuthContext);
   const axiosPublic = AxiosPublic();
+ 
 
   const handleGmailLogin = () => {
     GoogleLogin()
@@ -39,7 +40,7 @@ const GoogleLogin = () => {
   return (
     <div>
       <div>
-        <h5 className="text-sm text-black text-center">Or sign in with</h5>
+        <h5 className="text-sm text-white text-center">Or sign in with only Google</h5>
         <div className="flex gap-4 justify-center items-center py-6">
           <button className="bg-white p-2 hover:transform transition-transform duration-300 hover:scale-125  rounded-full border border-solid border-gray-500">
             <FaFacebook className="text-xl text-black " />

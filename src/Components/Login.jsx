@@ -1,13 +1,15 @@
 import Lottie from "lottie-react";
 import login from "../assets/Login.json";
 import GoogleLogin from "../Share/GoogleLogin";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "./Authontation/Authorization";
 import { useNavigate } from "react-router-dom";
+import { FaEyeSlash, FaRegEye } from "react-icons/fa";
 
 const Login = () => {
   const { userSignIn } = useContext(AuthContext);
-  const navigate=useNavigate()
+  const [showPass, setShowPass] = useState();
+  const navigate = useNavigate();
   const handleForm = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -21,7 +23,7 @@ const Login = () => {
     userSignIn(email, password)
       .then((res) => {
         console.log(res.user);
-        navigate("/")
+        navigate("/");
       })
       .catch((err) => {
         console.log(err.message);
@@ -44,7 +46,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 placeholder="email"
-                className="input dark:bg-white bg-gray-300 placeholder-black input-bordered w-full"
+                className="input dark:bg-white bg-gray-300 placeholder-black text-black input-bordered w-full"
                 required
               />
             </div>
@@ -52,13 +54,28 @@ const Login = () => {
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input
-                type="password"
-                name="password"
-                placeholder="password"
-                className="input dark:bg-white placeholder-black bg-gray-300  input-bordered w-full"
-                required
-              />
+              <div className="relative">
+                <input
+                  type={showPass?"text" :"password"}
+                  name="password"
+                  placeholder="password"
+                  className="input bg-white placeholder-black text-black  input-bordered w-full"
+                  required
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowPass(!showPass)}
+                  className="absolute top-[10px] right-6 z-50 cursor-pointer"
+                >
+                  {showPass ? (
+                    <FaRegEye className="text-xl text-black" />
+                  ) : (
+                    <FaEyeSlash className="text-xl text-black" />
+                  )}
+                </button>
+              </div>
+
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">
                   Forgot password?
