@@ -17,9 +17,10 @@ const Favorite = () => {
   const { users } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  console.log(data);
+  console.log(data,data._id)
 
   const handleDelete = (id) => {
+    console.log("tanvir",id)
     if (!users) {
       navigate("/login");
       return;
@@ -100,7 +101,7 @@ const Favorite = () => {
           </p>
         ) : (
           <div className="grid gap-6">
-            {data.map((v) => (
+            {data?.map((v) => (
               <div
                 key={v._id}
                 className="bg-white rounded-lg shadow-md p-6  md:p-4 grid grid-cols-1 md:grid-cols-5 gap-4 items-center "
@@ -148,7 +149,7 @@ const Favorite = () => {
 
                   <div className="flex justify-center">
                     <button
-                      onClick={() => handleDelete(v._id)}
+                      onClick={() =>handleDelete(v._id)}
                       className="bg-white p-2 border border-gray-200 rounded-full"
                     >
                       <RiDeleteBin6Line className="text-2xl text-red-500 hover:text-red-600 transition" />
